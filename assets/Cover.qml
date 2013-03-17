@@ -7,12 +7,12 @@ Container
     background: back.imagePaint
     horizontalAlignment: HorizontalAlignment.Fill
     verticalAlignment: VerticalAlignment.Fill
-    bottomPadding: 10; topPadding: 10; leftPadding: 10; rightPadding: 10
+    bottomPadding: 40; topPadding: 10; leftPadding: 10; rightPadding: 10
     
     attachedObjects: [
         ImagePaintDefinition {
             id: back
-            imageSource: "asset:///images/title_bg.amd"
+            imageSource: "asset:///images/title_bg.png"
         }
     ]
     
