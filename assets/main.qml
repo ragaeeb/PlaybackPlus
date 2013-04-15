@@ -208,14 +208,14 @@ NavigationPane
     
     function skip(n)
     {
-        console.log("skip", currentTrack, n, playlist.length)
+        //console.log("skip", currentTrack, n, playlist.length)
         var desired = currentTrack+n;
 		
 		if (desired >= 0 && desired < playlist.length) {
 		    currentTrack = desired
 		    playFile(playlist[currentTrack])
 		} else {
-		    console.log("out of bounds!")
+		    //console.log("out of bounds!")
 		    player.reset()
 		    navigationPane.top.actionBarVisibility = ChromeVisibility.Default
 		    rootContainer.showControls = false
