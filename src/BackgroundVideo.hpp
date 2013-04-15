@@ -1,23 +1,13 @@
 #ifndef BackgroundVideo_HPP_
 #define BackgroundVideo_HPP_
 
-#include <QSettings>
-
-#include <bb/pim/account/Account>
-#include <bb/pim/message/Keys>
-
-#include <bb/system/SystemUiResult>
+#include "Persistance.h"
+#include "SmsManager.h"
 
 namespace bb {
 	namespace cascades {
 		class Application;
 		class NavigationPane;
-	}
-
-	namespace pim {
-		namespace message {
-			class MessageService;
-		}
 	}
 }
 
@@ -25,33 +15,29 @@ namespace backgroundvideo {
 
 using namespace bb::cascades;
 using namespace bb::pim::message;
-using namespace bb::pim::account;
+using namespace canadainc;
 
 class BackgroundVideo : public QObject
 {
     Q_OBJECT
 
+    SmsManager m_sms;
+    Persistance m_persistance;
     NavigationPane* m_root;
-    QSettings m_settings;
-    AccountKey m_accountKey;
-    MessageService* m_ms;
-    bool m_connected;
 
     BackgroundVideo(Application* app);
 
 private slots:
 	void onMostRecentTriggered();
 	void onClearRecentTriggered();
-    void messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey);
-    void finished(bb::system::SystemUiResult::Type value);
+	void smsReceived(Message const& m, QString const& conversationKey);
+	void toastFinished(bool buttonTriggered);
+	void settingChanged(QString const& key);
 
 public:
     static void create(Application *app);
     virtual ~BackgroundVideo() {}
     Q_INVOKABLE void invokeSettingsApp();
-    Q_INVOKABLE void saveValueFor(QString const& objectName, QVariant const& inputValue);
-    Q_INVOKABLE QVariant getValueFor(QString const& objectName);
-    Q_INVOKABLE void monitorSMS(bool const& value);
 };
 
 }

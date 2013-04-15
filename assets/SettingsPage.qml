@@ -7,10 +7,10 @@ BasePage {
         
         SettingPair {
             title: qsTr("Animations")
-        	toggle.checked: app.getValueFor("animations") == 1
+        	toggle.checked: persist.getValueFor("animations") == 1
     
             toggle.onCheckedChanged: {
-        		app.saveValueFor("animations", checked ? 1 : 0)
+        		persist.saveValueFor("animations", checked ? 1 : 0)
         		
         		if (checked) {
         		    infoText.text = qsTr("Controls will be animated whenever they are loaded.")
@@ -23,10 +23,10 @@ BasePage {
         SettingPair {
             topMargin: 20
             title: qsTr("Landscape Lock")
-        	toggle.checked: app.getValueFor("landscape") == 1
+        	toggle.checked: persist.getValueFor("landscape") == 1
     
             toggle.onCheckedChanged: {
-        		app.saveValueFor("landscape", checked ? 1 : 0)
+        		persist.saveValueFor("landscape", checked ? 1 : 0)
         		
         		if (checked) {
         		    infoText.text = qsTr("The app will be locked to the landscape orientation.")
@@ -41,10 +41,10 @@ BasePage {
         SettingPair {
             topMargin: 20
             title: qsTr("Stretch Video")
-        	toggle.checked: app.getValueFor("stretch") == 1
+        	toggle.checked: persist.getValueFor("stretch") == 1
     
             toggle.onCheckedChanged: {
-        		app.saveValueFor("stretch", checked ? 1 : 0)
+        		persist.saveValueFor("stretch", checked ? 1 : 0)
         		
         		if (checked) {
         		    infoText.text = qsTr("The video will be stretched to fill the entire screen.")
@@ -57,18 +57,16 @@ BasePage {
         SettingPair {
             topMargin: 20
             title: qsTr("Toast SMS")
-        	toggle.checked: app.getValueFor("toastSMS") == 1
+        	toggle.checked: persist.getValueFor("toastSMS") == 1
     
             toggle.onCheckedChanged: {
-        		app.saveValueFor("toastSMS", checked ? 1 : 0)
+        		persist.saveValueFor("toastSMS", checked ? 1 : 0)
         		
         		if (checked) {
         		    infoText.text = qsTr("SMS messages will be shown in a popup toast during playback.")
         		} else {
         		    infoText.text = qsTr("SMS messages will not be displayed in a popup toast during playback.")
         		}
-        		
-        		app.monitorSMS(checked)
             }
             
             layoutProperties: StackLayoutProperties {
