@@ -10,6 +10,24 @@ NavigationPane
     property int currentTrack: 0
     
     attachedObjects: [
+        NowPlayingConnection {
+            id: nowPlaying
+            connectionName: "myConnection"
+            
+            onAcquired: {
+                player.reset()
+                player.play()
+            }
+            
+            onPause: {
+                player.pause()
+            }
+            
+            onRevoked: {
+                player.stop()
+            }
+        },
+        
         MediaPlayer {
             id: player
             videoOutput: VideoOutput.PrimaryDisplay
@@ -33,7 +51,7 @@ NavigationPane
             
             onVideoDimensionsChanged:
             {
-                if ( app.getValueFor("stretch") == 0 )
+                if ( persist.getValueFor("stretch") == 0 )
                 {
                     rootContainer.horizontalAlignment = HorizontalAlignment.Center
                     rootContainer.verticalAlignment = VerticalAlignment.Center
@@ -63,29 +81,6 @@ NavigationPane
             }
         },
         
-		FilePicker {
-		    id: filePicker
-			type : FileType.Video
-			title : qsTr("Select Video") + Retranslate.onLanguageChanged
-			mode: FilePickerMode.PickerMultiple
-			directories :  {
-			    return [ app.getValueFor("input"), "/accounts/1000/shared/videos"]
-			}
-			
-			onFileSelected : {
-				playlist = selectedFiles
-				currentTrack = 0;
-				skip(currentTrack)
-				app.saveValueFor("recent", selectedFiles)
-				
-				var lastFile = selectedFiles[selectedFiles.length-1];
-				var lastDir = lastFile.substring( 0, lastFile.lastIndexOf("/")+1 )
-				app.saveValueFor("input", lastDir)
-				
-				filePicker.directories = [lastDir, "/accounts/1000/shared/videos"]
-			}
-		},
-		
 		OrientationHandler {
 		    id: orientationHandler
 		    
@@ -134,6 +129,31 @@ NavigationPane
                 onTriggered: {
                     filePicker.open();
                 }
+                
+                attachedObjects: [
+                    FilePicker {
+                        id: filePicker
+                        type: FileType.Video
+                        title: qsTr("Select Video") + Retranslate.onLanguageChanged
+                        mode: FilePickerMode.PickerMultiple
+                        directories: {
+                            return [ persist.getValueFor("input"), "/accounts/1000/shared/videos" ]
+                        }
+
+                        onFileSelected: {
+                            playlist = selectedFiles
+                            currentTrack = 0;
+                            skip(currentTrack)
+                            persist.saveValueFor("recent", selectedFiles)
+
+                            var lastFile = selectedFiles[selectedFiles.length - 1];
+                            var lastDir = lastFile.substring(0, lastFile.lastIndexOf("/") + 1)
+                            persist.saveValueFor("input", lastDir)
+
+                            filePicker.directories = [ lastDir, "/accounts/1000/shared/videos" ]
+                        }
+                    }
+                ]
             },
             
 	        ActionItem {
@@ -168,8 +188,18 @@ NavigationPane
         cover.currentFile = trackTitle.text
         
 		player.stop()
+		
+		if ( file.indexOf("file://") == -1 ) {
+		    file = "file://"+file
+		}
+		
 		player.sourceUrl = file
-		player.play();
+		
+		if (nowPlaying.acquired) {
+            player.play();
+        } else {
+            nowPlaying.acquire()
+        }
 		
 		showControls();
 		navigationPane.top.actionBarVisibility = ChromeVisibility.Hidden
@@ -178,14 +208,14 @@ NavigationPane
     
     function skip(n)
     {
-        //console.log("skip", currentTrack, n, playlist.length)
+        console.log("skip", currentTrack, n, playlist.length)
         var desired = currentTrack+n;
 		
 		if (desired >= 0 && desired < playlist.length) {
 		    currentTrack = desired
 		    playFile(playlist[currentTrack])
 		} else {
-		    //console.log("out of bounds!")
+		    console.log("out of bounds!")
 		    player.reset()
 		    navigationPane.top.actionBarVisibility = ChromeVisibility.Default
 		    rootContainer.showControls = false
@@ -202,9 +232,9 @@ NavigationPane
     
     function formatTime(position)
     {
-		var secs = "%1".arg(Math.floor(position / 1000) % 60);
-		var mins = "%1".arg(Math.floor((position / (1000 * 60) ) % 60));
-		var hrs = Math.floor((position / (1000 * 60 * 60) ) % 24);
+		var secs = Math.floor(position / 1000) % 60
+        var mins = Math.floor((position / (1000 * 60) ) % 60)
+        var hrs = Math.floor((position / (1000 * 60 * 60) ) % 24);
 		
 		var seconds = secs >= 10 ? "%1".arg(secs) : "0%1".arg(secs)
 		var minutes = mins >= 10 ? "%1".arg(mins) : "0%1".arg(mins)
@@ -259,8 +289,12 @@ NavigationPane
 	                if ( player.mediaState == MediaState.Started ) {
 	                    player.pause()
 	                } else {
-	                    player.play()
-	                }
+                        if (nowPlaying.acquired) {
+                            player.play();
+                        } else {
+                            nowPlaying.acquire()
+                        }
+                    }
                 }
             }
         ]
@@ -308,7 +342,7 @@ NavigationPane
 	                    onTapped: {
 	                        showControls();
 	                        
-	                        var animate = app.getValueFor("animations") == 1
+	                        var animate = persist.getValueFor("animations") == 1
 	                        
 	                        if ( animate && currentTrack < playlist.length-1) {
     	                        leftShift.animate()
@@ -326,7 +360,11 @@ NavigationPane
                             if ( player.mediaState == MediaState.Started ) {
                                 player.pause()
                             } else {
-                                player.play()
+                                if (nowPlaying.acquired) {
+                                    player.play();
+                                } else {
+                                    nowPlaying.acquire()
+                                }
                             }
                         }
                     }
