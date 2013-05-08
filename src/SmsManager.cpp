@@ -1,9 +1,7 @@
+#include "precompiled.h"
+
 #include "SmsManager.h"
 #include "Logger.h"
-
-#include <bb/pim/account/AccountService>
-#include <bb/pim/message/MessageBuilder>
-#include <bb/pim/message/MessageService>
 
 namespace canadainc {
 

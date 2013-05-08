@@ -95,6 +95,7 @@ NavigationPane
             
             onTimeout: {
                 rootContainer.showControls = false
+                mainPage.actionBarVisibility = ChromeVisibility.Hidden
             }
         },
         
@@ -122,41 +123,6 @@ NavigationPane
         
         actions: [
             ActionItem {
-                id: loadAction
-                title: qsTr("Load Media")
-                imageSource: "asset:///images/action_open.png"
-                
-                onTriggered: {
-                    filePicker.open();
-                }
-                
-                attachedObjects: [
-                    FilePicker {
-                        id: filePicker
-                        type: FileType.Video
-                        title: qsTr("Select Video") + Retranslate.onLanguageChanged
-                        mode: FilePickerMode.PickerMultiple
-                        directories: {
-                            return [ persist.getValueFor("input"), "/accounts/1000/shared/videos" ]
-                        }
-
-                        onFileSelected: {
-                            playlist = selectedFiles
-                            currentTrack = 0;
-                            skip(currentTrack)
-                            persist.saveValueFor("recent", selectedFiles)
-
-                            var lastFile = selectedFiles[selectedFiles.length - 1];
-                            var lastDir = lastFile.substring(0, lastFile.lastIndexOf("/") + 1)
-                            persist.saveValueFor("input", lastDir)
-
-                            filePicker.directories = [ lastDir, "/accounts/1000/shared/videos" ]
-                        }
-                    }
-                ]
-            },
-            
-	        ActionItem {
 	            title: qsTr("Brightness")
 	            imageSource: "asset:///images/action_set.png"
 	            
@@ -226,6 +192,7 @@ NavigationPane
     function showControls()
     {
 		rootContainer.showControls = true
+		mainPage.actionBarVisibility = ChromeVisibility.Overlay
 		timer.start(5000)
     }
     
@@ -249,6 +216,8 @@ NavigationPane
     
     BasePage
     {
+        id: mainPage
+
         shortcuts: [
             SystemShortcut {
                 type: SystemShortcuts.CreateNew
@@ -295,6 +264,58 @@ NavigationPane
                             nowPlaying.acquire()
                         }
                     }
+                }
+            }
+        ]
+        
+        actionBarVisibility: ChromeVisibility.Overlay
+        
+        actions: [
+        	ActionItem {
+                id: loadAction
+                title: qsTr("Load Media") + Retranslate.onLanguageChanged
+                imageSource: "asset:///images/action_open.png"
+                ActionBar.placement: ActionBarPlacement.OnBar
+                
+                onTriggered: {
+                    filePicker.open();
+                }
+                
+                attachedObjects: [
+                    FilePicker {
+                        id: filePicker
+                        type: FileType.Video
+                        title: qsTr("Select Video") + Retranslate.onLanguageChanged
+                        mode: FilePickerMode.PickerMultiple
+                        directories: {
+                            return [ persist.getValueFor("input"), "/accounts/1000/shared/videos" ]
+                        }
+
+                        onFileSelected: {
+                            playlist = selectedFiles
+                            currentTrack = 0;
+                            skip(currentTrack)
+                            persist.saveValueFor("recent", selectedFiles)
+
+                            var lastFile = selectedFiles[selectedFiles.length - 1];
+                            var lastDir = lastFile.substring(0, lastFile.lastIndexOf("/") + 1)
+                            persist.saveValueFor("input", lastDir)
+
+                            filePicker.directories = [ lastDir, "/accounts/1000/shared/videos" ]
+                        }
+                    }
+                ]
+            },
+        	
+            ActionItem {
+                id: playAction
+                title: player.mediaState == MediaState.Started ? qsTr("Pause") : qsTr("Play")
+                imageSource: player.mediaState == MediaState.Started ? "asset:///images/ic_pause.png" : "asset:///images/ic_play.png"
+                ActionBar.placement: ActionBarPlacement.OnBar
+                enabled: rootContainer.showControls
+                
+                onTriggered: {
+	                longPressHandler.longPressed(0)
                 }
             }
         ]
@@ -408,11 +429,8 @@ NavigationPane
 	        Container
 	        {
 			    horizontalAlignment: HorizontalAlignment.Fill
-			    verticalAlignment: VerticalAlignment.Bottom
-			    bottomPadding: 35; leftPadding: 20; rightPadding: 20
-			    
-			    layout: DockLayout {}
-	            
+			    verticalAlignment: VerticalAlignment.Center
+
 				Slider {
 				    id: seeker
 				    visible: rootContainer.showControls
@@ -429,27 +447,29 @@ NavigationPane
 				        }
 				    }
 				}
-	        }
-	        
-			Label {
-			    id: trackTitle
-			    textStyle.fontSize: FontSize.XXSmall
-			    horizontalAlignment: HorizontalAlignment.Center
-			    verticalAlignment: VerticalAlignment.Top
-			    visible: rootContainer.showControls
-			}
-	        
-			Label {
-				property string positionText
-				property string durationText
 				
-			    id: seekerLabel
-	            text: qsTr("%1 / %2").arg(positionText).arg(durationText)
-			    textStyle.fontSize: FontSize.XXSmall
-			    horizontalAlignment: HorizontalAlignment.Center
-			    verticalAlignment: VerticalAlignment.Bottom
-			    visible: rootContainer.showControls
-			}
+				Label {
+				    id: trackTitle
+				    textStyle.fontSize: FontSize.XXSmall
+				    horizontalAlignment: HorizontalAlignment.Fill
+				    textStyle.textAlign: TextAlign.Center
+				    verticalAlignment: VerticalAlignment.Top
+				    visible: rootContainer.showControls
+				}
+		        
+				Label {
+					property string positionText
+					property string durationText
+					
+				    id: seekerLabel
+		            text: qsTr("%1 / %2").arg(positionText).arg(durationText)
+				    textStyle.fontSize: FontSize.XXSmall
+				    horizontalAlignment: HorizontalAlignment.Fill
+				    textStyle.textAlign: TextAlign.Center
+				    verticalAlignment: VerticalAlignment.Bottom
+				    visible: rootContainer.showControls
+				}
+	        }
         }
     }
 }

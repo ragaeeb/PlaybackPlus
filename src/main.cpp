@@ -1,9 +1,4 @@
-#include <bb/cascades/Application>
-#include <bb/cascades/pickers/FilePicker>
-
-#include <bb/device/DisplayInfo>
-
-#include <QTimer>
+#include "precompiled.h"
 
 #include "Logger.h"
 #include "BackgroundVideo.hpp"

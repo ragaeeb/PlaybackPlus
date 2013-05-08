@@ -1,8 +1,7 @@
+#include "precompiled.h"
+
 #include "Persistance.h"
 #include "Logger.h"
-
-#include <bb/system/Clipboard>
-#include <bb/system/SystemToast>
 
 namespace canadainc {
 
@@ -38,7 +37,7 @@ void Persistance::copyToClipboard(QString const& text)
 	Clipboard clipboard;
 	clipboard.clear();
 
-	clipboard.insert( "text/plain", text.toUtf8() );
+	clipboard.insert( "text/plain", convertToUtf8(text) );
 
 	showToast( tr("Copied: %1 to clipboard").arg(text) );
 }
@@ -51,8 +50,8 @@ void Persistance::finished(bb::system::SystemUiResult::Type value)
 }
 
 
-QString Persistance::convertToUtf8(QString const& text) {
-	return QString::fromUtf8( text.toUtf8().constData() );
+QByteArray Persistance::convertToUtf8(QString const& text) {
+	return text.toUtf8();
 }
 
 
@@ -69,9 +68,23 @@ QVariant Persistance::getValueFor(const QString &objectName)
 void Persistance::saveValueFor(const QString &objectName, const QVariant &inputValue)
 {
 	LOGGER("saveValueFor: " << objectName << inputValue);
-	m_settings.setValue(objectName, inputValue);
 
-	emit settingChanged(objectName);
+	if ( m_settings.value(objectName) != inputValue ) {
+		m_settings.setValue(objectName, inputValue);
+		emit settingChanged(objectName);
+	} else {
+		LOGGER("Duplicate value, ignoring");
+	}
+}
+
+
+void Persistance::remove(QString const& key) {
+	m_settings.remove(key);
+}
+
+
+void Persistance::clear() {
+	m_settings.clear();
 }
 
 
