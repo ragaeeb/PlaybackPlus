@@ -1,18 +1,7 @@
+#include "precompiled.h"
+
 #include "BackgroundVideo.hpp"
 #include "Logger.h"
-
-#include <bps/navigator.h>
-
-#include <bb/cascades/ActionItem>
-#include <bb/cascades/Application>
-#include <bb/cascades/Control>
-#include <bb/cascades/DeleteActionItem>
-#include <bb/cascades/NavigationPane>
-#include <bb/cascades/OrientationSupport>
-#include <bb/cascades/QmlDocument>
-#include <bb/cascades/SceneCover>
-
-#include <bb/pim/message/Message>
 
 namespace backgroundvideo {
 

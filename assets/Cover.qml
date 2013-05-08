@@ -7,7 +7,7 @@ Container
     background: back.imagePaint
     horizontalAlignment: HorizontalAlignment.Fill
     verticalAlignment: VerticalAlignment.Fill
-    bottomPadding: 40; topPadding: 10; leftPadding: 10; rightPadding: 10
+    bottomPadding: 60; topPadding: 10; leftPadding: 10; rightPadding: 10
     
     attachedObjects: [
         ImagePaintDefinition {
