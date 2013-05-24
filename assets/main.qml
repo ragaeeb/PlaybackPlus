@@ -16,7 +16,7 @@ NavigationPane
             
             onAcquired: {
                 player.reset()
-                player.play()
+                doPlay();
             }
             
             onPause: {
@@ -35,8 +35,8 @@ NavigationPane
             
             onPlaybackCompleted: {
                 //console.log("playbackCompleted")
-                player.positionChanged(0)
-                skip(1)
+                player.positionChanged(0);
+                skip(1);
             }
             
 		    onDurationChanged: {
@@ -89,16 +89,6 @@ NavigationPane
 		    }
         },
         
-        QTimer {
-            id: timer
-            singleShot: true
-            
-            onTimeout: {
-                rootContainer.showControls = false
-                mainPage.actionBarVisibility = ChromeVisibility.Hidden
-            }
-        },
-        
         ComponentDefinition {
             id: definition
         }
@@ -148,6 +138,17 @@ NavigationPane
         }
     }
     
+    function doPlay()
+    {
+        if (nowPlaying.acquired) {
+            mainPage.actionBarVisibility = ChromeVisibility.Hidden;
+            rootContainer.showControls = false;
+            player.play();
+        } else {
+            nowPlaying.acquire()
+        }
+    }
+    
     function playFile(file)
     {
         trackTitle.text = file.substring( file.lastIndexOf("/")+1 )
@@ -161,14 +162,7 @@ NavigationPane
 		
 		player.sourceUrl = file
 		
-		if (nowPlaying.acquired) {
-            player.play();
-        } else {
-            nowPlaying.acquire()
-        }
-		
-		showControls();
-		navigationPane.top.actionBarVisibility = ChromeVisibility.Hidden
+		doPlay();
     }
     
     
@@ -178,22 +172,22 @@ NavigationPane
         var desired = currentTrack+n;
 		
 		if (desired >= 0 && desired < playlist.length) {
-		    currentTrack = desired
-		    playFile(playlist[currentTrack])
+		    currentTrack = desired;
+		    playFile(playlist[currentTrack]);
 		} else {
 		    //console.log("out of bounds!")
-		    player.reset()
-		    navigationPane.top.actionBarVisibility = ChromeVisibility.Default
-		    rootContainer.showControls = false
-		}
+		    player.reset();
+            player.sourceUrl = "";
+            mainPage.actionBarVisibility = ChromeVisibility.Overlay;
+            rootContainer.showControls = false;
+        }
     }
     
     
-    function showControls()
+    function toggleControls()
     {
-		rootContainer.showControls = true
-		mainPage.actionBarVisibility = ChromeVisibility.Overlay
-		timer.start(5000)
+        rootContainer.showControls = !rootContainer.showControls && player.mediaState == MediaState.Started;
+        mainPage.actionBarVisibility = mainPage.actionBarVisibility == ChromeVisibility.Overlay ? ChromeVisibility.Hidden : ChromeVisibility.Overlay;
     }
     
     
@@ -219,14 +213,6 @@ NavigationPane
         id: mainPage
 
         shortcuts: [
-            SystemShortcut {
-                type: SystemShortcuts.CreateNew
-                
-                onTriggered: {
-                    loadAction.triggered()
-                }
-            },
-            
             SystemShortcut {
                 type: SystemShortcuts.NextSection
                 
@@ -258,11 +244,7 @@ NavigationPane
 	                if ( player.mediaState == MediaState.Started ) {
 	                    player.pause()
 	                } else {
-                        if (nowPlaying.acquired) {
-                            player.play();
-                        } else {
-                            nowPlaying.acquire()
-                        }
+                        doPlay();
                     }
                 }
             }
@@ -280,6 +262,12 @@ NavigationPane
                 onTriggered: {
                     filePicker.open();
                 }
+                
+                shortcuts: [
+                    SystemShortcut {
+                        type: SystemShortcuts.CreateNew
+                    }
+                ]
                 
                 attachedObjects: [
                     FilePicker {
@@ -312,8 +300,8 @@ NavigationPane
                 title: player.mediaState == MediaState.Started ? qsTr("Pause") : qsTr("Play")
                 imageSource: player.mediaState == MediaState.Started ? "asset:///images/ic_pause.png" : "asset:///images/ic_play.png"
                 ActionBar.placement: ActionBarPlacement.OnBar
-                enabled: rootContainer.showControls
-                
+                enabled: player.mediaState == MediaState.Started || player.mediaState == MediaState.Paused;
+
                 onTriggered: {
 	                longPressHandler.longPressed(0)
                 }
@@ -322,7 +310,7 @@ NavigationPane
         
         contentContainer: Label
         {
-            text: qsTr("Welcome to BV10.\n\nSwipe-down from the top bezel and choose your media.\n\nTo pause/resume playback at any point press-and-hold on the video.\n\nTo skip to the next/prev video you can swipe left/right respectively.") + Retranslate.onLanguageChanged
+            text: qsTr("Welcome to BV10.\n\nChoose your media by tapping on the Load Media action in the action bar.\n\nTo pause/resume playback at any point press-and-hold on the video.\n\nTo skip to the next/prev video you can swipe left/right respectively.") + Retranslate.onLanguageChanged
             multiline: true
             textStyle.fontSize: FontSize.XXSmall
             horizontalAlignment: HorizontalAlignment.Center
@@ -361,7 +349,7 @@ NavigationPane
 	            gestureHandlers: [
 	                TapHandler {
 	                    onTapped: {
-	                        showControls();
+	                        toggleControls();
 	                        
 	                        var animate = persist.getValueFor("animations") == 1
 	                        
@@ -381,11 +369,7 @@ NavigationPane
                             if ( player.mediaState == MediaState.Started ) {
                                 player.pause()
                             } else {
-                                if (nowPlaying.acquired) {
-                                    player.play();
-                                } else {
-                                    nowPlaying.acquire()
-                                }
+                                doPlay();
                             }
                         }
                     }

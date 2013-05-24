@@ -17,6 +17,11 @@ BackgroundVideo::BackgroundVideo(Application* app) : QObject(app)
 	INIT_SETTING("stretch", 1);
 	INIT_SETTING("input", "/accounts/1000/removable/sdcard/videos");
 
+	qmlRegisterType<bb::cascades::pickers::FilePicker>("CustomComponent", 1, 0, "FilePicker");
+	qmlRegisterUncreatableType<bb::cascades::pickers::FileType>("CustomComponent", 1, 0, "FileType", "Can't instantiate");
+	qmlRegisterUncreatableType<bb::cascades::pickers::FilePickerMode>("CustomComponent", 1, 0, "FilePickerMode", "Can't instantiate");
+    qmlRegisterType<bb::device::DisplayInfo>("CustomComponent", 1, 0, "DisplayInfo");
+
 	QmlDocument* qmlCover = QmlDocument::create("asset:///Cover.qml").parent(this);
 	Control* sceneRoot = qmlCover->createRootObject<Control>();
 	SceneCover* cover = SceneCover::create().content(sceneRoot);
@@ -90,7 +95,21 @@ void BackgroundVideo::create(Application *app) {
 
 void BackgroundVideo::onClearRecentTriggered()
 {
-	m_root->top()->removeAllActions();
+	Page* p = m_root->top();
+
+	for (int i = p->actionCount()-1; i >= 0; i--)
+	{
+		AbstractActionItem* aai = p->actionAt(i);
+
+		if ( aai->property("uri").isValid() )
+		{
+			if ( p->removeAction(aai) ) {
+				aai->setParent(NULL);
+				delete aai;
+			}
+		}
+	}
+
 	m_persistance.saveValueFor( "recent", QStringList() );
 }
 

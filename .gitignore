@@ -1,2 +1,4 @@
-/.settings
-/config.pri
+arm/Makefile
+arm/Makefile.Debug
+arm/Makefile.Release
+.DS_Store
