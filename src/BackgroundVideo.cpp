@@ -1,17 +1,17 @@
 #include "precompiled.h"
 
 #include "BackgroundVideo.hpp"
+#include "InvocationUtils.h"
 #include "Logger.h"
 
 namespace backgroundvideo {
 
 using namespace bb::cascades;
 using namespace bb::system;
-using namespace bb::pim::message;
+using namespace canadainc;
 
 BackgroundVideo::BackgroundVideo(Application* app) : QObject(app)
 {
-	INIT_SETTING("animations", 1);
 	INIT_SETTING("landscape", 1);
 	INIT_SETTING("stretch", 1);
 	INIT_SETTING("input", "/accounts/1000/removable/sdcard/videos");
@@ -114,8 +114,7 @@ void BackgroundVideo::onMostRecentTriggered()
 
 
 void BackgroundVideo::invokeSettingsApp() {
-	navigator_invoke("settings://display", NULL);
+	InvocationUtils::launchSettingsApp("display");
 }
-
 
 }

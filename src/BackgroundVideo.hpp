@@ -13,7 +13,6 @@ namespace bb {
 namespace backgroundvideo {
 
 using namespace bb::cascades;
-using namespace bb::pim::message;
 using namespace canadainc;
 
 class BackgroundVideo : public QObject
