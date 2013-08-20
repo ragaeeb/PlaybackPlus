@@ -2,7 +2,7 @@ import bb.cascades 1.0
 
 Page {
     property alias contentContainer: contentContainer.controls
-    property alias titleContainer: titleBar
+    property alias titleContainer: titleBarControl
     property alias rootContainer: topLevel.controls
     
     Container
@@ -14,7 +14,7 @@ Page {
         
 	    Container {
 			Container {
-			    id: titleBar
+			    id: titleBarControl
 			    layout: DockLayout {}
 			
 			    horizontalAlignment: HorizontalAlignment.Fill

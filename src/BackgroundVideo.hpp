@@ -2,7 +2,6 @@
 #define BackgroundVideo_HPP_
 
 #include "Persistance.h"
-#include "SmsManager.h"
 
 namespace bb {
 	namespace cascades {
@@ -21,7 +20,6 @@ class BackgroundVideo : public QObject
 {
     Q_OBJECT
 
-    SmsManager m_sms;
     Persistance m_persistance;
     NavigationPane* m_root;
 
@@ -30,8 +28,6 @@ class BackgroundVideo : public QObject
 private slots:
 	void onMostRecentTriggered();
 	void onClearRecentTriggered();
-	void smsReceived(Message const& m, QString const& conversationKey);
-	void toastFinished(bool buttonTriggered);
 	void settingChanged(QString const& key);
 
 public:

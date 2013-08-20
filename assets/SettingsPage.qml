@@ -52,22 +52,6 @@ BasePage {
         		    infoText.text = qsTr("The video will not be stretched to fill the entire screen.")
         		}
             }
-        }
-        
-        SettingPair {
-            topMargin: 20
-            title: qsTr("Toast SMS")
-        	toggle.checked: persist.getValueFor("toastSMS") == 1
-    
-            toggle.onCheckedChanged: {
-        		persist.saveValueFor("toastSMS", checked ? 1 : 0)
-        		
-        		if (checked) {
-        		    infoText.text = qsTr("SMS messages will be shown in a popup toast during playback.")
-        		} else {
-        		    infoText.text = qsTr("SMS messages will not be displayed in a popup toast during playback.")
-        		}
-            }
             
             layoutProperties: StackLayoutProperties {
                 spaceQuota: 1
