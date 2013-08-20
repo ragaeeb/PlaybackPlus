@@ -1,6 +1,7 @@
 import bb.cascades 1.0
 import bb.multimedia 1.0
 import CustomComponent 1.0
+import bb.device 1.0
 
 NavigationPane
 {
@@ -94,48 +95,24 @@ NavigationPane
         }
     ]
 
-    Menu.definition: MenuDefinition
+    Menu.definition: CanadaIncMenu
     {
-        settingsAction: SettingsActionItem
-        {
-            property Page settingsPage
-            
-            onTriggered:
-            {
-                if (!settingsPage) {
-                    definition.source = "SettingsPage.qml"
-                    settingsPage = definition.createObject()
-                }
-                
-                navigationPane.push(settingsPage);
-            }
+        projectName: "oct-10"
+        
+        onCreationCompleted: {
+            addAction(updateAction);
         }
         
-        actions: [
+        attachedObjects: [
             ActionItem {
-	            title: qsTr("Brightness")
-	            imageSource: "asset:///images/action_set.png"
-	            
-	            onTriggered: {
-	                app.invokeSettingsApp()
-	            }
-	        }
-        ]
-
-        helpAction: HelpActionItem
-        {
-            property Page helpPage
-            
-            onTriggered:
-            {
-                if (!helpPage) {
-                    definition.source = "HelpPage.qml"
-                    helpPage = definition.createObject();
+                title: qsTr("Brightness") + Retranslate.onLanguageChanged
+                imageSource: "asset:///images/action_set.png"
+                
+                onTriggered: {
+                    app.invokeSettingsApp()
                 }
-
-                navigationPane.push(helpPage);
             }
-        }
+        ]
     }
     
     function doPlay()
@@ -351,13 +328,13 @@ NavigationPane
 	                    onTapped: {
 	                        toggleControls();
 	                        
-	                        var animate = persist.getValueFor("animations") == 1
+                            leftShift.animate()
 	                        
-	                        if ( animate && currentTrack < playlist.length-1) {
+	                        if ( currentTrack < playlist.length-1) {
     	                        leftShift.animate()
 	                        }
 	                        
-	                        if ( animate && currentTrack > 0 && playlist.length > 1) {
+	                        if ( currentTrack > 0 && playlist.length > 1) {
     	                        rightShift.animate()
 	                        }
 	                    }

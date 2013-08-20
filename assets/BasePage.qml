@@ -39,11 +39,8 @@ Page {
 			            }
 			        ]
 			        
-			        onCreationCompleted:
-			        {
-			            if ( persist.getValueFor("animations") == 1 ) {
-			                translate.play()
-			            }
+			        onCreationCompleted: {
+                        translate.play();
 			        }
 			    }
 			
@@ -81,9 +78,7 @@ Page {
                         ]
 
                         onCreationCompleted: {
-                            if (persist.getValueFor("animations") == 1) {
-                                fadeTranslate.play()
-                            }
+                            fadeTranslate.play();
                         }
                     }
 			    }
@@ -127,11 +122,8 @@ Page {
 	                    }
 	                ]
 	                
-			        onCreationCompleted:
-			        {
-			            if ( persist.getValueFor("animations") == 1 ) {
-                            shadowTranslate.play()
-			            }
+			        onCreationCompleted: {
+                        shadowTranslate.play();
 			        }
 	            }
 	        }
