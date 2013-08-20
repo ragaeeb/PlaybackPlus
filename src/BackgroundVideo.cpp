@@ -12,7 +12,6 @@ using namespace bb::pim::message;
 BackgroundVideo::BackgroundVideo(Application* app) : QObject(app)
 {
 	INIT_SETTING("animations", 1);
-	INIT_SETTING("toastSMS", 0);
 	INIT_SETTING("landscape", 1);
 	INIT_SETTING("stretch", 1);
 	INIT_SETTING("input", "/accounts/1000/removable/sdcard/videos");
@@ -65,29 +64,17 @@ BackgroundVideo::BackgroundVideo(Application* app) : QObject(app)
 	settingChanged("toastSMS");
 	settingChanged("landscape");
 
-    connect( &m_sms, SIGNAL( smsReceived(Message const&, QString const&) ), this, SLOT( smsReceived(Message const&, QString const&) ) );
     connect( &m_persistance, SIGNAL( settingChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ) );
 }
 
 
 void BackgroundVideo::settingChanged(QString const& key)
 {
-	if (key == "toastSMS") {
-		m_sms.monitorIncomingSMS( m_persistance.getValueFor("toastSMS").toInt() == 1 );
-	} else if (key == "landscape") {
+	if (key == "landscape") {
 		OrientationSupport::instance()->setSupportedDisplayOrientation( m_persistance.getValueFor("landscape").toInt() == 1 ? SupportedDisplayOrientation::DisplayLandscape : SupportedDisplayOrientation::All);
 	}
 }
 
-
-void BackgroundVideo::smsReceived(Message const& m, QString const& conversationKey)
-{
-	Q_UNUSED(conversationKey);
-
-	setProperty( "key", m.id() );
-	QString text = m.attachmentAt(0).data();
-	m_persistance.showToast( tr("%1: %2").arg( m.sender().displayableName() ).arg(text), tr("OK") );
-}
 
 void BackgroundVideo::create(Application *app) {
 	new BackgroundVideo(app);
@@ -123,17 +110,6 @@ void BackgroundVideo::onMostRecentTriggered()
 	playlist << uri;
 	m_root->setProperty("playlist", playlist);
 	QMetaObject::invokeMethod( m_root, "playFile", Q_ARG(QVariant,QVariant(uri) ) );
-}
-
-
-void BackgroundVideo::toastFinished(bool buttonTriggered)
-{
-	LOGGER("Toast finished()");
-
-	if (buttonTriggered) {
-		MessageKey mk = property("key").value<MessageKey>();
-		m_sms.markRead(mk);
-	}
 }
 
 
