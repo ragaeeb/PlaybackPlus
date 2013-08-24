@@ -1,0 +1,12 @@
+import bb.cascades 1.0
+
+ImageButton {
+    preferredWidth: 96; preferredHeight: 96;
+    leftMargin: 40; rightMargin: 40
+    horizontalAlignment: HorizontalAlignment.Center
+    verticalAlignment: VerticalAlignment.Center
+    
+    onClicked: {
+        player.skip(1);
+    }
+}

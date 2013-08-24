@@ -1,7 +1,7 @@
 import bb.cascades 1.0
 import bb 1.0
 
-BasePage
+Page
 {
     attachedObjects: [
         ApplicationInfo {
@@ -13,7 +13,7 @@ BasePage
         }
     ]
 
-    contentContainer: Container
+    Container
     {
         leftPadding: 20; rightPadding: 20
 
