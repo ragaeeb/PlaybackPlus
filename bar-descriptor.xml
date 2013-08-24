@@ -66,9 +66,7 @@
     <!--  The category where the application appears. Either core.games or core.media. -->
     <category>core.media</category>
     <splashScreens>
-       <image>splash_lseries_landscape.png</image>
-       <image>splash_lseries_portrait.png</image>
-       <image>splash_n.png</image>
+       <image>splash.png</image>
     </splashScreens>
     <configuration name="Device-Debug">
        <platformArchitecture>armle-v7</platformArchitecture>
@@ -92,13 +90,11 @@
     <asset path="translations" dest="qm">
         <include name="*.qm"/>
     </asset>
-    <asset path="splash_lseries_landscape.png">splash_lseries_landscape.png</asset>
-    <asset path="splash_lseries_portrait.png">splash_lseries_portrait.png</asset>
-    <asset path="splash_n.png">splash_n.png</asset>
-    
+
     <asset path="../canadainc/assets/BugReportPage.qml">assets/BugReportPage.qml</asset>
     <asset path="../canadainc/assets/CanadaIncMenu.qml">assets/CanadaIncMenu.qml</asset>
     <asset path="../canadainc/assets/SettingPair.qml">assets/SettingPair.qml</asset>
+    <asset path="splash.png">splash.png</asset>
     
     <!-- Request permission to execute native code.  Required for native applications. -->
     <permission system="true">run_native</permission>

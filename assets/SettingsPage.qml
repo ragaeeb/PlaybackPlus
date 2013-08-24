@@ -1,15 +1,15 @@
 import bb.cascades 1.0
 
-BasePage
+Page
 {
-    contentContainer: Container
+    Container
     {
         leftPadding: 20; topPadding: 20; rightPadding: 20; bottomPadding: 20
         
         SettingPair
         {
             title: qsTr("Landscape Lock") + Retranslate.onLanguageChanged
-        	key: "landscape" == 1
+        	key: "landscape"
     
             toggle.onCheckedChanged: {
         		if (checked) {
