@@ -51,11 +51,15 @@ QtObject
     {
         if (key == "stretch") {
             handleVideoDimensionsChanged(player.videoDimensions);
+        } else if (key == "landscape") {
+            OrientationSupport.supportedDisplayOrientation = persist.getValueFor("landscape") == 1 ? SupportedDisplayOrientation.DisplayLandscape : SupportedDisplayOrientation.All;
         }
     }
     
     onCreationCompleted: {
         player.videoDimensionsChanged.connect(handleVideoDimensionsChanged);
         persist.settingChanged.connect(onSettingChanged);
+        
+        onSettingChanged("landscape");
     }
 }

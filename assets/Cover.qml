@@ -2,12 +2,12 @@ import bb.cascades 1.0
 
 Container
 {
-    property string currentFile
-    
     background: back.imagePaint
     horizontalAlignment: HorizontalAlignment.Fill
     verticalAlignment: VerticalAlignment.Fill
-    bottomPadding: 60; topPadding: 10; leftPadding: 10; rightPadding: 10
+    bottomPadding: 10; topPadding: 10; leftPadding: 10; rightPadding: 10
+    
+    layout: DockLayout {}
     
     attachedObjects: [
         ImagePaintDefinition {
@@ -16,25 +16,24 @@ Container
         }
     ]
     
-    layout: DockLayout {}
-    
-    ImageView {
-        imageSource: "images/logo.png"
-        topMargin: 0
-        leftMargin: 0
-        rightMargin: 0
-        bottomMargin: 0
-
-        horizontalAlignment: HorizontalAlignment.Center
-        verticalAlignment: VerticalAlignment.Bottom
-    }
-    
     Label {
-        text: currentFile
+        text: qsTr("Playback Plus") + Retranslate.onLanguageChanged
         multiline: true
         horizontalAlignment: HorizontalAlignment.Fill
-        verticalAlignment: VerticalAlignment.Top
+        verticalAlignment: VerticalAlignment.Center
         textStyle.textAlign: TextAlign.Center
         textStyle.fontSize: FontSize.XXSmall
+        
+        function onMetaDataChanged(metadata) {
+            var uri = metadata.uri;
+            uri = uri.substring( uri.lastIndexOf("/")+1 );
+            uri = uri.substring( 0, uri.lastIndexOf(".") );
+            
+            text = uri;
+        }
+        
+        onCreationCompleted: {
+            player.metaDataChanged.connect(onMetaDataChanged);
+        }
     }
 }
