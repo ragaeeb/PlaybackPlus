@@ -17,77 +17,76 @@ Container
 	    }
 	}
     
-    Slider {
-        id: seeker
-        horizontalAlignment: HorizontalAlignment.Fill
-        
-        onTouch: {
-            if ( event.isUp() ) {
-                player.seek(immediateValue);
-                timer.start(5000);
-            } else if ( event.isMove() ) {
-                seekerLabel.positionText = textUtils.formatTime(immediateValue);
-            } else if ( event.isDown() ) {
-                timer.stop();
-            }
-        }
-        
-        onCreationCompleted: {
-            player.durationChanged.connect( function(duration) {
-                toValue = duration;
-            });
-            
-	        player.positionChanged.connect( function(position) {
-	            value = position;
-	        });
-        }
-    }
-    
     Container
     {
+        verticalAlignment: VerticalAlignment.Fill
         horizontalAlignment: HorizontalAlignment.Fill
-        background: titleDef.imagePaint
+        layout: DockLayout {}
         
-        Label {
-            id: trackTitle
-            textStyle.fontSize: FontSize.XXSmall
+        Container {
+            verticalAlignment: VerticalAlignment.Fill
             horizontalAlignment: HorizontalAlignment.Fill
-            textStyle.textAlign: TextAlign.Center
-            verticalAlignment: VerticalAlignment.Top
+            background: Color.Black
+            opacity: 0.5
         }
         
-        Label {
-            property string positionText
-            property string durationText
-            
-            id: seekerLabel
-            text: qsTr("%1 / %2").arg(positionText).arg(durationText)
-            textStyle.fontSize: FontSize.XXSmall
+        Container
+        {
+            verticalAlignment: VerticalAlignment.Fill
             horizontalAlignment: HorizontalAlignment.Fill
-            textStyle.textAlign: TextAlign.Center
-            verticalAlignment: VerticalAlignment.Bottom
             
-            onCreationCompleted: {
-                player.durationChanged.connect( function(duration) {
-                        durationText = textUtils.formatTime(duration);
+            Slider {
+                id: seeker
+                horizontalAlignment: HorizontalAlignment.Fill
+                
+                onTouch: {
+                    if ( event.isUp() ) {
+                        player.seek(immediateValue);
+                        timer.start(5000);
+                    } else if ( event.isMove() ) {
+                        seekerLabel.positionText = textUtils.formatTime(immediateValue);
+                    } else if ( event.isDown() ) {
+                        timer.stop();
+                    }
+                }
+                
+                onCreationCompleted: {
+                    player.durationChanged.connect( function(duration) {
+                            toValue = duration;
+                    });
+                
+                player.positionChanged.connect( function(position) {
+                        value = position;
                 });
+                }
+            }
             
-	            player.positionChanged.connect( function(position) {
-	                    positionText = textUtils.formatTime(position);
-	            });
+            Label {
+                id: seekerLabel
+                property string positionText
+                property string durationText
+                text: qsTr("[ %1 / %2 ]").arg(positionText).arg(durationText)
+                textStyle.fontSize: FontSize.XSmall
+                horizontalAlignment: HorizontalAlignment.Fill
+                textStyle.textAlign: TextAlign.Center
+                verticalAlignment: VerticalAlignment.Bottom
+                
+                onCreationCompleted: {
+                    player.durationChanged.connect( function(duration) {
+                            durationText = textUtils.formatTime(duration);
+                    });
+                
+                player.positionChanged.connect( function(position) {
+                        positionText = textUtils.formatTime(position);
+                });
+                }
             }
         }
-        
-        attachedObjects: [
-            ImagePaintDefinition {
-                id: titleDef
-                imageSource: "images/title_bg.png"
-            }
-        ]
     }
     
     Container
     {
+        topPadding: 40
         horizontalAlignment: HorizontalAlignment.Center
         
         layout: StackLayout {
@@ -98,6 +97,7 @@ Container
             defaultImageSource: "images/ic_prev.png"
             
             onClicked: {
+                console.log("SKIPPING TO PREVIOUS!!!!!!!!!");
                 player.skip(-1);
             }
         }
@@ -154,7 +154,7 @@ Container
             duration: 500
             
             onStarted: {
-                page.actionBarVisibility = ChromeVisibility.Overlay;
+                page.titleBar.visibility = page.actionBarVisibility = ChromeVisibility.Overlay;
                 root.visible = true;
             }
             
@@ -171,7 +171,7 @@ Container
             
             onEnded: {
                 root.visible = false;
-                page.actionBarVisibility = ChromeVisibility.Hidden;
+                page.titleBar.visibility = page.actionBarVisibility = ChromeVisibility.Hidden;
             }
         }
     ]

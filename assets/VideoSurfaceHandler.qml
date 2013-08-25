@@ -4,7 +4,7 @@ import bb.device 1.0
 QtObject
 {
     property DisplayInfo displayInfo: DisplayInfo {}
-    property Container surface
+    property ForeignWindowControl surface
     property OrientationHandler orientationHandler: OrientationHandler {
 	    onOrientationChanged: {
             handleVideoDimensionsChanged(player.videoDimensions);
@@ -15,9 +15,13 @@ QtObject
     {
         if ( persist.getValueFor("stretch") == 0 )
         {
+            videoDimensions = player.videoDimensions;
+            
+            console.log("StretCH OFF", videoDimensions.width, videoDimensions.height)
+            
             surface.horizontalAlignment = HorizontalAlignment.Center
             surface.verticalAlignment = VerticalAlignment.Center
-            
+
             if (orientationHandler.orientation == UIOrientation.Landscape) {
                 if (videoDimensions.width > videoDimensions.height) { // src is landscape and device is portrait
                     surface.preferredWidth = displayInfo.pixelSize.height
@@ -36,13 +40,22 @@ QtObject
                 }
             }
         } else {
+            console.log(">>>>>>> STRETCH IS ON!");
             surface.resetPreferredSize()
             surface.horizontalAlignment = HorizontalAlignment.Fill
             surface.verticalAlignment = VerticalAlignment.Fill
         }
     }
     
+    function onSettingChanged(key)
+    {
+        if (key == "stretch") {
+            handleVideoDimensionsChanged(player.videoDimensions);
+        }
+    }
+    
     onCreationCompleted: {
         player.videoDimensionsChanged.connect(handleVideoDimensionsChanged);
+        persist.settingChanged.connect(onSettingChanged);
     }
 }

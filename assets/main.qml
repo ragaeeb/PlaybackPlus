@@ -41,6 +41,22 @@ NavigationPane
     {
         id: mainPage
         actionBarVisibility: ChromeVisibility.Overlay
+
+        titleBar: TitleBar {
+            visibility: ChromeVisibility.Overlay
+            
+            function onMetaDataChanged(metadata) {
+                var uri = metadata.uri;
+                uri = uri.substring( uri.lastIndexOf("/")+1 );
+                uri = uri.substring( 0, uri.lastIndexOf(".") );
+                
+                title = uri;
+            }
+            
+            onCreationCompleted: {
+                player.metaDataChanged.connect(onMetaDataChanged);
+            }
+        }
         
         actions: [
         	ActionItem {
@@ -156,13 +172,13 @@ NavigationPane
                         visible: boundToWindow
                         horizontalAlignment: HorizontalAlignment.Center
                         verticalAlignment: VerticalAlignment.Center
-                        /*
-                         attachedObjects: [
-                         VideoSurfaceHandler {
-                         id: videoHandler
-                         surface: rootContainer
-                         }
-                         ]*/
+
+                        attachedObjects: [
+                            VideoSurfaceHandler {
+                                id: videoHandler
+                                surface: foreign
+                            }
+                        ]
                     }
                     
                     PlaybackControl {
