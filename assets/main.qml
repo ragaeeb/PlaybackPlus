@@ -24,10 +24,10 @@ NavigationPane
             ActionItem {
                 id: brightnessAction
                 title: qsTr("Brightness") + Retranslate.onLanguageChanged
-                imageSource: "images/action_set.png"
+                imageSource: "images/ic_brightness.png"
                 
                 onTriggered: {
-                    app.invokeSettingsApp()
+                    app.invokeSettingsApp();
                 }
             }
         ]
@@ -65,6 +65,7 @@ NavigationPane
                 ActionBar.placement: ActionBarPlacement.OnBar
                 
                 onTriggered: {
+                    filePicker.directories = [persist.getValueFor("input"), "/accounts/1000/shared/videos"];
                     filePicker.open();
                 }
                 
@@ -78,11 +79,8 @@ NavigationPane
                     FilePicker {
                         id: filePicker
                         filter: ["*.mkv", "*.mp4", "*.m4a", "*.ogg", "*.mp3", "*.amr", "*.aac", "*.flac", "*.mid", "*.wma", "*.3gp", "*.3g2", "*.asf", "*.avi", "*.mov", "*.f4v", "*.wmv", "*.wav"]
-                        title: qsTr("Select Video") + Retranslate.onLanguageChanged
+                        title: qsTr("Select Media") + Retranslate.onLanguageChanged
                         mode: FilePickerMode.PickerMultiple
-                        directories: {
-                            return [ persist.getValueFor("input"), "/accounts/1000/shared/videos" ]
-                        }
 
                         onFileSelected: {
                             persist.saveValueFor("recent", selectedFiles);
@@ -90,8 +88,6 @@ NavigationPane
                             var lastFile = selectedFiles[selectedFiles.length - 1];
                             var lastDir = lastFile.substring(0, lastFile.lastIndexOf("/") + 1);
                             persist.saveValueFor("input", lastDir);
-
-                            filePicker.directories = [ lastDir, "/accounts/1000/shared/videos" ];
                             
                             player.play(selectedFiles);
                         }
@@ -127,7 +123,7 @@ NavigationPane
             function onActiveChanged()
             {
                 if (player.active) {
-                    delegateActive = player.active;
+                    delegateActive = true;
                     player.activeChanged.disconnect(onActiveChanged);
                 }
             }

@@ -1,6 +1,8 @@
 #ifndef BackgroundVideo_HPP_
 #define BackgroundVideo_HPP_
 
+#include <bb/system/InvokeManager>
+
 #include "LazyMediaPlayer.h"
 #include "LazySceneCover.h"
 #include "Persistance.h"
@@ -21,19 +23,21 @@ class BackgroundVideo : public QObject
 {
     Q_OBJECT
 
+    bb::system::InvokeManager m_invokeManager;
     LazySceneCover m_cover;
     LazyMediaPlayer m_player;
     Persistance m_persistance;
-    NavigationPane* m_root;
 
     BackgroundVideo(Application* app);
+    QObject* loadRoot(QString const& qml, bool invoked=false);
 
 signals:
 	void initialize();
 
 private slots:
-	void settingChanged(QString const& key);
 	void init();
+	void invoked(bb::system::InvokeRequest const& request);
+	void hackPlayback();
 
 public:
     static void create(Application *app);

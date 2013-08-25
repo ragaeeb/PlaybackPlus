@@ -4,12 +4,12 @@ Page
 {
     ScrollView
     {
-        leftPadding: 20; topPadding: 20; rightPadding: 20; bottomPadding: 20
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
         
         Container
         {
+            leftPadding: 20; topPadding: 20; rightPadding: 20; bottomPadding: 20
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
             
@@ -21,10 +21,8 @@ Page
                 toggle.onCheckedChanged: {
                     if (checked) {
                         infoText.text = qsTr("The app will be locked to the landscape orientation.")
-                        OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.DisplayLandscape
                     } else {
                         infoText.text = qsTr("The app will not be locked to just the landscape orientation.")
-                        OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.All
                     }
                 }
             }
