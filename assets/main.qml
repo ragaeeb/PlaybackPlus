@@ -85,6 +85,11 @@ TabbedPane
         
         onCreationCompleted: {
             sql.dataLoaded.connect(onDataLoaded);
+            
+            if ( persist.getValueFor("tutorialCount") < 1 ) {
+                persist.showToast( qsTr("Welcome to Playback Plus! Click on the Load Media action below to choose the media to play. You can select a combination of audio and video to play and they can be in different folders.\n\nYou can use the 'Video' action below to toggle the video on and off to conserve battery life if you have an audio-only video file."), qsTr("OK") );
+                persist.saveValueFor("tutorialCount", 1);
+            }
         }
     }
 }

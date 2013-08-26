@@ -2,6 +2,10 @@ import bb.cascades 1.0
 
 Page
 {
+    titleBar: TitleBar {
+        title: qsTr("Settings") + Retranslate.onLanguageChanged
+    }
+    
     ScrollView
     {
         horizontalAlignment: HorizontalAlignment.Fill

@@ -26,6 +26,8 @@ QObject* BackgroundVideo::loadRoot(QString const& qmlDoc, bool invoked)
 {
 	Q_UNUSED(invoked);
 
+	INIT_SETTING("tutorialCount", 0);
+
 	qmlRegisterType<bb::cascades::pickers::FilePicker>("bb.cascades.pickers", 1, 0, "FilePicker");
 	qmlRegisterUncreatableType<bb::cascades::pickers::FileType>("bb.cascades.pickers", 1, 0, "FileType", "Can't instantiate");
 	qmlRegisterUncreatableType<bb::cascades::pickers::FilePickerMode>("bb.cascades.pickers", 1, 0, "FilePickerMode", "Can't instantiate");
