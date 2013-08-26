@@ -37,27 +37,32 @@ Container
             
             Slider {
                 id: seeker
+                property bool touchedDown: false
                 horizontalAlignment: HorizontalAlignment.Fill
                 
                 onTouch: {
                     if ( event.isUp() ) {
                         player.seek(immediateValue);
-                        timer.start(5000);
+                        timer.refresh();
+                        touchedDown = false;
                     } else if ( event.isMove() ) {
                         seekerLabel.positionText = textUtils.formatTime(immediateValue);
                     } else if ( event.isDown() ) {
                         timer.stop();
+                        touchedDown = true;
                     }
                 }
                 
                 onCreationCompleted: {
                     player.durationChanged.connect( function(duration) {
-                            toValue = duration;
+                        toValue = duration;
                     });
                 
-                player.positionChanged.connect( function(position) {
-                        value = position;
-                });
+	                player.positionChanged.connect( function(position) {
+	                    if (!touchedDown) {
+                            value = position;
+	                    }
+	                });
                 }
             }
             
@@ -73,12 +78,12 @@ Container
                 
                 onCreationCompleted: {
                     player.durationChanged.connect( function(duration) {
-                            durationText = textUtils.formatTime(duration);
+                        durationText = textUtils.formatTime(duration);
                     });
                 
-                player.positionChanged.connect( function(position) {
-                        positionText = textUtils.formatTime(position);
-                });
+	                player.positionChanged.connect( function(position) {
+	                    positionText = textUtils.formatTime(position);
+	                });
                 }
             }
         }
@@ -97,7 +102,6 @@ Container
             defaultImageSource: "images/ic_prev.png"
             
             onClicked: {
-                console.log("SKIPPING TO PREVIOUS!!!!!!!!!");
                 player.skip(-1);
             }
         }
@@ -106,7 +110,8 @@ Container
             defaultImageSource: "images/ic_rewind.png"
             
             onClicked: {
-                player.jump(-10000);
+                jumpTimer.count -= 1;
+                timer.refresh();
             }
         }
         
@@ -128,7 +133,8 @@ Container
             defaultImageSource: "images/ic_forward.png"
             
             onClicked: {
-                player.jump(10000);
+                jumpTimer.count += 1;
+                timer.refresh();
             }
         }
         
@@ -143,7 +149,7 @@ Container
     
     onCreationCompleted: {
         fadeIn.play();
-        timer.start(5000);
+        timer.refresh();
     }
     
     animations: [
@@ -159,7 +165,7 @@ Container
             }
             
             onEnded: {
-                timer.start(5000);
+                timer.refresh();
             }
         },
         
@@ -187,6 +193,29 @@ Container
             
             onTimeout: {
                 fadeOut.play();
+            }
+            
+            function refresh() {
+                start(5000);
+            }
+        },
+        
+        QTimer {
+            id: jumpTimer
+            property int count
+            singleShot: true
+            
+            onCountChanged: {
+                if (count != 0) {
+                    start(250);
+                }
+            }
+            
+            onTimeout: {
+                if (count != 0) {
+                    player.jump(count*10000);
+                    count = 0;
+                }
             }
         }
     ]
