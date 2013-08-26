@@ -3,6 +3,7 @@
 
 #include <bb/system/InvokeManager>
 
+#include "customsqldatasource.h"
 #include "LazyMediaPlayer.h"
 #include "LazySceneCover.h"
 #include "Persistance.h"
@@ -23,6 +24,7 @@ class BackgroundVideo : public QObject
 {
     Q_OBJECT
 
+    CustomSqlDataSource m_sql;
     bb::system::InvokeManager m_invokeManager;
     LazySceneCover m_cover;
     LazyMediaPlayer m_player;
@@ -38,6 +40,7 @@ private slots:
 	void init();
 	void invoked(bb::system::InvokeRequest const& request);
 	void hackPlayback();
+	void aboutToQuit();
 
 public:
     static void create(Application *app);

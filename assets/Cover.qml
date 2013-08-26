@@ -34,6 +34,7 @@ Container
         
         onCreationCompleted: {
             player.metaDataChanged.connect(onMetaDataChanged);
+            onMetaDataChanged(player.metaData);
         }
     }
 }
