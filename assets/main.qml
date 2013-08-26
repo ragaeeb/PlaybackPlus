@@ -1,17 +1,16 @@
 import bb.cascades 1.0
-import bb.cascades.pickers 1.0
-import bb.multimedia 1.0
 
-NavigationPane
+TabbedPane
 {
-    id: navigationPane
-
+    id: root
+    activeTab: playTab
+    
     attachedObjects: [
         ComponentDefinition {
             id: definition
         }
     ]
-
+    
     Menu.definition: CanadaIncMenu
     {
         projectName: "continuous-playback"
@@ -32,159 +31,60 @@ NavigationPane
             }
         ]
     }
-
-    onPopTransitionEnded: {
-        page.destroy();
+    
+    function lazyLoad(actualSource, tab) {
+        definition.source = actualSource;
+        
+        var actual = definition.createObject();
+        tab.content = actual;
+        
+        return actual;
     }
     
-    Page
+    Tab
     {
-        id: mainPage
-        actionBarVisibility: ChromeVisibility.Overlay
-
-        titleBar: TitleBar {
-            visibility: ChromeVisibility.Overlay
+        id: playTab
+        title: qsTr("Playback") + Retranslate.onLanguageChanged
+        description: qsTr("Play") + Retranslate.onLanguageChanged
+        imageSource: "images/ic_play.png"
+        
+        PlaybackTab {}
+    }
+    
+    Tab {
+        id: recent
+        title: qsTr("Recent") + Retranslate.onLanguageChanged
+        description: qsTr("Recently Played") + Retranslate.onLanguageChanged
+        imageSource: "images/ic_open_recent.png"
+        
+        function onRecentSelected(file, position)
+        {
+            lazyLoad("PlaybackTab.qml", playTab);
+            playTab.triggered();
+            activeTab = playTab;
             
-            function onMetaDataChanged(metadata) {
-                var uri = metadata.uri;
-                uri = uri.substring( uri.lastIndexOf("/")+1 );
-                uri = uri.substring( 0, uri.lastIndexOf(".") );
-                
-                title = uri;
-            }
-            
-            onCreationCompleted: {
-                player.metaDataChanged.connect(onMetaDataChanged);
+            player.play(file);
+            player.seek(position);
+        }
+        
+        onTriggered: {
+            if (! content) {
+                var page = lazyLoad("RecentTab.qml", recent);
+                page.recentSelected.connect(onRecentSelected);
             }
         }
         
-        actions: [
-        	ActionItem {
-                title: qsTr("Load Media") + Retranslate.onLanguageChanged
-                imageSource: "images/action_open.png"
-                ActionBar.placement: ActionBarPlacement.OnBar
-                
-                onTriggered: {
-                    filePicker.directories = [persist.getValueFor("input"), "/accounts/1000/shared/videos"];
-                    filePicker.open();
-                }
-                
-                shortcuts: [
-                    SystemShortcut {
-                        type: SystemShortcuts.CreateNew
-                    }
-                ]
-                
-                attachedObjects: [
-                    FilePicker {
-                        id: filePicker
-                        filter: ["*.mkv", "*.mp4", "*.m4a", "*.ogg", "*.mp3", "*.amr", "*.aac", "*.flac", "*.mid", "*.wma", "*.3gp", "*.3g2", "*.asf", "*.avi", "*.mov", "*.f4v", "*.wmv", "*.wav"]
-                        title: qsTr("Select Media") + Retranslate.onLanguageChanged
-                        mode: FilePickerMode.PickerMultiple
-
-                        onFileSelected: {
-                            persist.saveValueFor("recent", selectedFiles);
-
-                            var lastFile = selectedFiles[selectedFiles.length - 1];
-                            var lastDir = lastFile.substring(0, lastFile.lastIndexOf("/") + 1);
-                            persist.saveValueFor("input", lastDir);
-                            
-                            player.play(selectedFiles);
-                        }
-                    }
-                ]
-            },
-        	
-            ActionItem {
-                title: qsTr("Video")
-                imageSource: "images/ic_video_toggle.png"
-                ActionBar.placement: ActionBarPlacement.OnBar
-                enabled: player.active
-                shortcuts: [
-                    Shortcut {
-                        key: SystemShortcuts.Edit
-                    }
-                ]
-                
-                onTriggered: {
-                    player.toggleVideo();
-                }
+        function onDataLoaded(id, data)
+        {
+            if (id == 16) {
+                unreadContentCount = data[0].count;
+            } else if (id == 1) {
+                unreadContentCount = data.length;
             }
-        ]
-
-		ControlDelegate
-		{
-		    id: videoDelegate
-            property string videoWindowId: "myVideoSurface"
-            horizontalAlignment: HorizontalAlignment.Fill
-            verticalAlignment: VerticalAlignment.Fill
-            delegateActive: false
-            
-            function onActiveChanged()
-            {
-                if (player.active) {
-                    delegateActive = true;
-                    player.activeChanged.disconnect(onActiveChanged);
-                }
-            }
-            
-            onCreationCompleted: {
-                player.setVideoWindowId(videoWindowId);
-                player.activeChanged.connect(onActiveChanged);
-            }
-            
-            sourceComponent: ComponentDefinition
-            {
-                Container
-                {
-                    id: rootContainer
-                    horizontalAlignment: HorizontalAlignment.Fill
-                    verticalAlignment: VerticalAlignment.Fill
-                    
-                    layout: DockLayout {}
-                    
-                    gestureHandlers: [
-                        TapHandler {
-                            onTapped: {
-                                controller.toggle();
-                                mainPage.actionBarVisibility = mainPage.actionBarVisibility == ChromeVisibility.Overlay ? ChromeVisibility.Hidden : ChromeVisibility.Overlay;
-                            }
-                        },
-                        
-                        LongPressHandler {
-                            id: longPressHandler
-                            
-                            onLongPressed: {
-                                player.togglePlayback();
-                            }
-                        }
-                    ]
-                    
-                    ForeignWindowControl
-                    {
-                        id: foreign
-                        windowId: videoDelegate.videoWindowId
-                        updatedProperties: WindowProperty.Size | WindowProperty.Position | WindowProperty.Visible
-                        visible: boundToWindow
-                        horizontalAlignment: HorizontalAlignment.Center
-                        verticalAlignment: VerticalAlignment.Center
-
-                        attachedObjects: [
-                            VideoSurfaceHandler {
-                                id: videoHandler
-                                surface: foreign
-                            }
-                        ]
-                    }
-                    
-                    PlaybackControl {
-                        id: controller
-                        page: mainPage
-                        horizontalAlignment: HorizontalAlignment.Fill
-                        verticalAlignment: VerticalAlignment.Center
-                    }
-                }
-            }
-      	}
+        }
+        
+        onCreationCompleted: {
+            sql.dataLoaded.connect(onDataLoaded);
+        }
     }
 }

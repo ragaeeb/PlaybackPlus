@@ -2,7 +2,7 @@ APP_NAME = BackgroundVideo
 
 INCLUDEPATH += ../../canadainc/src/
 CONFIG += qt warn_on cascades10
-LIBS += -lbbcascadespickers -lbbmultimedia -lbbsystem -lbbdevice
+LIBS += -lbbcascadespickers -lbbmultimedia -lbbsystem -lbbdevice -lbbdata
 
 CONFIG(release, debug|release) {
     DESTDIR = o.le-v7

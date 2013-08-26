@@ -17,6 +17,7 @@ BackgroundVideo::BackgroundVideo(Application* app) : QObject(app), m_cover("Cove
 
 	loadRoot("main.qml");
 	connect( &m_invokeManager, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
+	connect( app, SIGNAL( aboutToQuit() ), this, SLOT( aboutToQuit() ) );
 }
 
 
@@ -36,6 +37,7 @@ QObject* BackgroundVideo::loadRoot(QString const& qmlDoc, bool invoked)
     qml->setContextProperty("app", this);
     qml->setContextProperty("persist", &m_persistance);
     qml->setContextProperty("player", &m_player);
+    qml->setContextProperty("sql", &m_sql);
 
     AbstractPane* root = qml->createRootObject<AbstractPane>();
 
@@ -45,6 +47,22 @@ QObject* BackgroundVideo::loadRoot(QString const& qmlDoc, bool invoked)
     Application::instance()->setScene(root);
 
     return root;
+}
+
+
+void BackgroundVideo::aboutToQuit()
+{
+	QVariantMap map = m_player.metaData();
+	QString filePath = map.value("uri").toString();
+
+	if ( !filePath.isEmpty() )
+	{
+		uint position = m_player.currentPosition().toUInt();
+
+		m_sql.setQuery( QString("INSERT OR REPLACE INTO recent (file, position) VALUES(?, %1)").arg(position) );
+		QVariantList params = QVariantList() << filePath;
+		m_sql.executePrepared(params, 15);
+	}
 }
 
 
@@ -74,6 +92,18 @@ void BackgroundVideo::init()
 	INIT_SETTING("landscape", 1);
 	INIT_SETTING("stretch", 1);
 	INIT_SETTING("input", "/accounts/1000/removable/sdcard/videos");
+
+	QString database = QString("%1/database.db").arg( QDir::homePath() );
+	m_sql.setSource(database);
+
+	if ( !QFile(database).exists() ) {
+		QStringList qsl;
+		qsl << "CREATE TABLE recent (file TEXT PRIMARY KEY, position INTEGER DEFAULT 0, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)";
+		m_sql.initSetup(qsl, 99);
+	} else {
+		m_sql.setQuery("SELECT count() as count from recent ORDER BY timestamp DESC LIMIT 10");
+		m_sql.load(16);
+	}
 
 	InvocationUtils::validateSharedFolderAccess( tr("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to access the media files so they can be played. If you leave this permission off, some features may not work properly.") );
 }
