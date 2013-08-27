@@ -17,8 +17,6 @@ QtObject
         {
             videoDimensions = player.videoDimensions;
             
-            console.log("StretCH OFF", videoDimensions.width, videoDimensions.height)
-            
             surface.horizontalAlignment = HorizontalAlignment.Center
             surface.verticalAlignment = VerticalAlignment.Center
 
@@ -40,7 +38,6 @@ QtObject
                 }
             }
         } else {
-            console.log(">>>>>>> STRETCH IS ON!");
             surface.resetPreferredSize()
             surface.horizontalAlignment = HorizontalAlignment.Fill
             surface.verticalAlignment = VerticalAlignment.Fill
