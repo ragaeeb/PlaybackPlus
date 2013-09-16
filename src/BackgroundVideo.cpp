@@ -54,6 +54,7 @@ QObject* BackgroundVideo::loadRoot(QString const& qmlDoc, bool invoked)
 
 void BackgroundVideo::aboutToQuit()
 {
+	m_player.pause();
 	QVariantMap map = m_player.metaData();
 	QString filePath = map.value("uri").toString();
 
