@@ -136,12 +136,12 @@ NavigationPane
                 
                 function reload()
                 {
-                    sql.dataLoaded.connect(onDataLoaded);
                     sql.query = "SELECT * from recent ORDER BY timestamp DESC LIMIT 10";
                     sql.load(1);                    
                 }
                 
                 onCreationCompleted: {
+                    sql.dataLoaded.connect(onDataLoaded);
                     reload();
                 }
                 

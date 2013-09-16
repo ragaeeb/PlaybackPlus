@@ -1,5 +1,6 @@
 import bb.cascades 1.0
 import com.canadainc.data 1.0
+import bb.multimedia 1.0
 
 Container
 {
@@ -185,6 +186,15 @@ Container
     attachedObjects: [
         TextUtils {
             id: textUtils
+        },
+
+        MediaKeyWatcher {
+            id: keyWatcher
+            key: MediaKey.PlayPause
+
+            onShortPress: {
+                player.togglePlayback();
+            }
         },
         
         QTimer {

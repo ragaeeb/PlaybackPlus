@@ -91,7 +91,7 @@ void BackgroundVideo::invoked(bb::system::InvokeRequest const& request)
 
 void BackgroundVideo::init()
 {
-	INIT_SETTING("landscape", 1);
+	INIT_SETTING("landscape", 0);
 	INIT_SETTING("stretch", 1);
 	INIT_SETTING("input", "/accounts/1000/removable/sdcard/videos");
 
