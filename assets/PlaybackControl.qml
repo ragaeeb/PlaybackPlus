@@ -191,10 +191,24 @@ Container
         MediaKeyWatcher {
             id: keyWatcher
             key: MediaKey.PlayPause
+            property variant lastClick: new Date()
 
             onShortPress: {
-                player.togglePlayback();
+                var now = new Date();
+                
+                if (now-lastClick < 300) { // quick clicks means bookmark
+                    console.log("====== BOOKMARKED");
+                    testSheet.open();
+                } else {
+                    player.togglePlayback();
+                }
+                
+                lastClick = now;
             }
+        },
+        
+        TestSheet {
+            id: testSheet
         },
         
         QTimer {
