@@ -191,16 +191,16 @@ Container
         MediaKeyWatcher {
             id: keyWatcher
             key: MediaKey.PlayPause
-            property variant lastClick: new Date()
-
+            property variant lastClick
+            
             onShortPress: {
                 var now = new Date();
                 
-                if (now-lastClick < 300) { // quick clicks means bookmark
-                    console.log("====== BOOKMARKED");
+                if (now-lastClick < 500) {
+                    bookmarkTimer.stop();
                     testSheet.open();
                 } else {
-                    player.togglePlayback();
+                    bookmarkTimer.start(500);
                 }
                 
                 lastClick = now;
@@ -240,6 +240,15 @@ Container
                     player.jump(count*10000);
                     count = 0;
                 }
+            }
+        },
+        
+        QTimer {
+            id: bookmarkTimer
+            singleShot: true
+            
+            onTimeout: {
+                player.togglePlayback();
             }
         }
     ]
