@@ -1,4 +1,5 @@
 import bb.cascades 1.0
+import com.canadainc.data 1.0
 
 TabbedPane
 {
@@ -76,9 +77,7 @@ TabbedPane
         
         function onDataLoaded(id, data)
         {
-            if (id == 16) {
-                unreadContentCount = data[0].count;
-            } else if (id == 1) {
+            if (id == QueryId.FetchRecent) {
                 unreadContentCount = data.length;
             }
         }

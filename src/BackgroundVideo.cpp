@@ -4,6 +4,7 @@
 #include "InvocationUtils.h"
 #include "LazyMediaPlayer.h"
 #include "Logger.h"
+#include "QueryId.h"
 #include "TextUtils.h"
 
 namespace backgroundvideo {
@@ -32,8 +33,9 @@ QObject* BackgroundVideo::loadRoot(QString const& qmlDoc, bool invoked)
 	qmlRegisterUncreatableType<bb::cascades::pickers::FileType>("bb.cascades.pickers", 1, 0, "FileType", "Can't instantiate");
 	qmlRegisterUncreatableType<bb::cascades::pickers::FilePickerMode>("bb.cascades.pickers", 1, 0, "FilePickerMode", "Can't instantiate");
     qmlRegisterType<bb::device::DisplayInfo>("bb.device", 1, 0, "DisplayInfo");
-    qmlRegisterType<canadainc::TextUtils>("com.canadainc.data", 1, 0, "TextUtils");
     qmlRegisterType<QTimer>("com.canadainc.data", 1, 0, "QTimer");
+    qmlRegisterUncreatableType<QueryId>("com.canadainc.data", 1, 0, "QueryId", "Can't instantiate");
+    qmlRegisterType<canadainc::TextUtils>("com.canadainc.data", 1, 0, "TextUtils");
 
     QmlDocument* qml = QmlDocument::create( QString("asset:///%1").arg(qmlDoc) ).parent(this);
     qml->setContextProperty("app", this);
@@ -64,7 +66,7 @@ void BackgroundVideo::aboutToQuit()
 
 		m_sql.setQuery( QString("INSERT OR REPLACE INTO recent (file, position) VALUES(?, %1)").arg(position) );
 		QVariantList params = QVariantList() << filePath;
-		m_sql.executePrepared(params, 15);
+		m_sql.executePrepared(params, QueryId::SaveRecent);
 	}
 }
 
@@ -102,10 +104,10 @@ void BackgroundVideo::init()
 	if ( !QFile(database).exists() ) {
 		QStringList qsl;
 		qsl << "CREATE TABLE recent (file TEXT PRIMARY KEY, position INTEGER DEFAULT 0, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)";
-		m_sql.initSetup(qsl, 99);
+		m_sql.initSetup(qsl, QueryId::Setup);
 	} else {
-		m_sql.setQuery("SELECT count() as count from recent ORDER BY timestamp DESC LIMIT 10");
-		m_sql.load(16);
+		m_sql.setQuery("SELECT * from recent ORDER BY timestamp DESC LIMIT 10");
+		m_sql.load(QueryId::FetchRecent);
 	}
 
 	InvocationUtils::validateSharedFolderAccess( tr("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to access the media files so they can be played. If you leave this permission off, some features may not work properly.") );

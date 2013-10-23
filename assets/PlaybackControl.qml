@@ -198,17 +198,12 @@ Container
                 
                 if (now-lastClick < 500) {
                     bookmarkTimer.stop();
-                    testSheet.open();
                 } else {
                     bookmarkTimer.start(500);
                 }
                 
                 lastClick = now;
             }
-        },
-        
-        TestSheet {
-            id: testSheet
         },
         
         QTimer {

@@ -102,6 +102,7 @@ Dialog
                                 horizontalAlignment: HorizontalAlignment.Fill
                                 verticalAlignment: VerticalAlignment.Fill
                                 preferredHeight: 400
+                                textStyle.color: Color.Black
                             }
                         } // end block bg container
                     }

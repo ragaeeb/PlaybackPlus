@@ -36,7 +36,7 @@ NavigationPane
                         onFinished: {
                             if (result == SystemUiResult.ConfirmButtonSelection) {
                                 sql.query = "DELETE from recent";
-                                sql.load(2);
+                                sql.load(Queryid.ClearAllRecent);
                                 listView.reload();
                                 
                                 persist.showToast( qsTr("Cleared recent list!") );
@@ -80,7 +80,7 @@ NavigationPane
                 {
                     sql.query = "DELETE FROM recent WHERE file=?";
                     var params = [ListItemData.file];
-                    sql.executePrepared(params, 18);
+                    sql.executePrepared(params, QueryId.DeleteRecent);
                     reload();
                 }
                 
@@ -126,7 +126,7 @@ NavigationPane
                 
                 function onDataLoaded(id, data)
                 {
-                    if (id == 1) {
+                    if (id == QueryId.FetchRecent) {
                         adm.clear();
                         adm.append(data);
                         
@@ -137,7 +137,7 @@ NavigationPane
                 function reload()
                 {
                     sql.query = "SELECT * from recent ORDER BY timestamp DESC LIMIT 10";
-                    sql.load(1);                    
+                    sql.load(QueryId.FetchRecent);                    
                 }
                 
                 onCreationCompleted: {
