@@ -46,6 +46,11 @@ public:
     static void create(Application *app);
     virtual ~BackgroundVideo() {}
     Q_INVOKABLE void invokeSettingsApp();
+    Q_INVOKABLE void addBookmark(QVariant position=QVariant(), QString const& body=QString());
+    Q_INVOKABLE void fetchAllBookmarks();
+    Q_INVOKABLE void fetchAllRecent();
+    Q_INVOKABLE void deleteBookmark(int id);
+    Q_INVOKABLE void deleteRecent(QString const& file);
 };
 
 }

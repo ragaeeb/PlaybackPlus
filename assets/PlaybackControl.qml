@@ -198,6 +198,7 @@ Container
                 
                 if (now-lastClick < 500) {
                     bookmarkTimer.stop();
+                    app.addBookmark();
                 } else {
                     bookmarkTimer.start(500);
                 }

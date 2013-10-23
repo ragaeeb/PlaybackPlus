@@ -12,9 +12,13 @@ class QueryId
 
 public:
     enum Type {
+    	ClearAllBookmarks,
     	ClearAllRecent,
+    	DeleteBookmark,
         DeleteRecent,
+        FetchBookmarks,
         FetchRecent,
+        SaveBookmark,
         SaveRecent,
         Setup
     };

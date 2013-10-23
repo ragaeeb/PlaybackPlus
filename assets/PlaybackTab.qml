@@ -135,6 +135,21 @@ NavigationPane
                             onLongPressed: {
                                 player.togglePlayback();
                             }
+                        },
+                        
+                        DoubleTapHandler
+                        {
+                            property variant notesDialog
+                            
+                            onDoubleTapped: {
+                                if (!notesDialog) {
+                                    definition.source = "NotesDialog.qml";
+                                    notesDialog = definition.createObject();
+                                }
+
+                                notesDialog.position = player.position;
+                                notesDialog.open();
+                            }
                         }
                     ]
                     
