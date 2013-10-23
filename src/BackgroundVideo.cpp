@@ -171,4 +171,19 @@ void BackgroundVideo::invokeSettingsApp() {
 	InvocationUtils::launchSettingsApp("display");
 }
 
+bool BackgroundVideo::deleteFile(QString const& file, bool removeBookmarks)
+{
+	bool result = QFile::remove(file);
+
+	deleteRecent(file);
+
+	if (removeBookmarks) {
+		m_sql.setQuery("DELETE FROM bookmarks WHERE file=?");
+		QVariantList params = QVariantList() << file;
+		m_sql.executePrepared(params, QueryId::DeleteFile);
+	}
+
+	return result;
+}
+
 }

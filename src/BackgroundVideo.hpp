@@ -51,6 +51,7 @@ public:
     Q_INVOKABLE void fetchAllRecent();
     Q_INVOKABLE void deleteBookmark(int id);
     Q_INVOKABLE void deleteRecent(QString const& file);
+    Q_INVOKABLE bool deleteFile(QString const& file, bool removeBookmarks=false);
 };
 
 }

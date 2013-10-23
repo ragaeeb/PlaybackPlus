@@ -87,6 +87,42 @@ NavigationPane
                 onTriggered: {
                     player.toggleVideo();
                 }
+            },
+            
+            DeleteActionItem {
+                title: qsTr("Delete") + Retranslate.onLanguageChanged
+                enabled: player.active
+                
+                onTriggered: {
+                    prompt.show();
+                }
+                
+                attachedObjects: [
+                    SystemDialog {
+                        id: prompt
+                        title: qsTr("Confirmation") + Retranslate.onLanguageChanged
+                        body: qsTr("Are you sure you want to delete this file?") + Retranslate.onLanguageChanged
+                        confirmButton.label: qsTr("OK") + Retranslate.onLanguageChanged
+                        cancelButton.label: qsTr("Cancel") + Retranslate.onLanguageChanged
+                        includeRememberMe: true
+                        rememberMeChecked: false
+                        rememberMeText: qsTr("Also delete bookmarks associated with file.") + Retranslate.onLanguageChanged
+                        
+                        onFinished: {
+                            if (result == SystemUiResult.ConfirmButtonSelection)
+                            {
+                                player.stop();
+                                var deleted = app.deleteFile( player.metaData.uri, prompt.rememberMeSelection() );
+                                
+                                if (deleted) {
+                                    persist.showToast( qsTr("Deleted file!") );
+                                } else {
+                                    persist.showToast( qsTr("Could not delete file!") );
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         ]
         

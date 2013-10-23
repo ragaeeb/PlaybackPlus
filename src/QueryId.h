@@ -15,6 +15,7 @@ public:
     	ClearAllBookmarks,
     	ClearAllRecent,
     	DeleteBookmark,
+    	DeleteFile,
         DeleteRecent,
         FetchBookmarks,
         FetchRecent,
