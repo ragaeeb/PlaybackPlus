@@ -3,8 +3,8 @@
 
 <cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
-		<cconfiguration id="com.qnx.qcc.toolChain.1749567028">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.qnx.qcc.toolChain.1749567028" moduleId="org.eclipse.cdt.core.settings" name="Device-Debug">
+		<cconfiguration id="com.qnx.qcc.toolChain.2076661048">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.qnx.qcc.toolChain.2076661048" moduleId="org.eclipse.cdt.core.settings" name="Device-Debug">
 				<externalSettings/>
 				<extensions>
 					<extension id="com.qnx.tools.ide.qde.core.QDEBynaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -14,24 +14,24 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" id="com.qnx.qcc.toolChain.1749567028" name="Device-Debug" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="com.qnx.qcc.toolChain.1749567028.1476972419" name="/" resourcePath="">
-						<toolChain id="com.qnx.qcc.toolChain.1976354374" name="com.qnx.qcc.toolChain" superClass="com.qnx.qcc.toolChain">
-							<option id="com.qnx.qcc.option.os.485784571" name="Target OS:" superClass="com.qnx.qcc.option.os"/>
-							<option id="com.qnx.qcc.option.cpu.1130251798" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
-							<option id="com.qnx.qcc.option.compiler.1345877382" name="Compiler:" superClass="com.qnx.qcc.option.compiler"/>
-							<option id="com.qnx.qcc.option.runtime.917249335" name="Runtime:" superClass="com.qnx.qcc.option.runtime"/>
-							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.878360280" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
-							<builder autoBuildTarget="Device-Debug" enableAutoBuild="true" id="com.qnx.qcc.toolChain.1749567028.939004979" incrementalBuildTarget="Device-Debug" managedBuildOn="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
-							<tool id="com.qnx.qcc.tool.compiler.958229542" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
-								<option id="com.qnx.qcc.option.compiler.optlevel.1008169273" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
-								<inputType id="com.qnx.qcc.inputType.compiler.1562809359" superClass="com.qnx.qcc.inputType.compiler"/>
+				<configuration artifactName="${ProjName}" buildProperties="" id="com.qnx.qcc.toolChain.2076661048" name="Device-Debug" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.qnx.qcc.toolChain.2076661048.216674246" name="/" resourcePath="">
+						<toolChain id="com.qnx.qcc.toolChain.1641821021" name="com.qnx.qcc.toolChain" superClass="com.qnx.qcc.toolChain">
+							<option id="com.qnx.qcc.option.os.447831613" name="Target OS:" superClass="com.qnx.qcc.option.os"/>
+							<option id="com.qnx.qcc.option.cpu.472384101" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
+							<option id="com.qnx.qcc.option.compiler.1383045501" name="Compiler:" superClass="com.qnx.qcc.option.compiler"/>
+							<option id="com.qnx.qcc.option.runtime.389888630" name="Runtime:" superClass="com.qnx.qcc.option.runtime"/>
+							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.327454854" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
+							<builder autoBuildTarget="Device-Debug" enableAutoBuild="true" id="com.qnx.qcc.toolChain.2076661048.1561171517" incrementalBuildTarget="Device-Debug" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
+							<tool id="com.qnx.qcc.tool.compiler.443648021" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
+								<option id="com.qnx.qcc.option.compiler.optlevel.67982929" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
+								<inputType id="com.qnx.qcc.inputType.compiler.425891615" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
-							<tool id="com.qnx.qcc.tool.assembler.442016304" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
-								<inputType id="com.qnx.qcc.inputType.assembler.57977005" superClass="com.qnx.qcc.inputType.assembler"/>
+							<tool id="com.qnx.qcc.tool.assembler.365493133" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
+								<inputType id="com.qnx.qcc.inputType.assembler.790943257" superClass="com.qnx.qcc.inputType.assembler"/>
 							</tool>
-							<tool id="com.qnx.qcc.tool.linker.653578694" name="QCC Linker" superClass="com.qnx.qcc.tool.linker"/>
-							<tool id="com.qnx.qcc.tool.archiver.103409758" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver"/>
+							<tool id="com.qnx.qcc.tool.linker.1418074770" name="QCC Linker" superClass="com.qnx.qcc.tool.linker"/>
+							<tool id="com.qnx.qcc.tool.archiver.475718318" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
@@ -41,8 +41,8 @@
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
-		<cconfiguration id="com.qnx.qcc.toolChain.417940004">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.qnx.qcc.toolChain.417940004" moduleId="org.eclipse.cdt.core.settings" name="Device-Release">
+		<cconfiguration id="com.qnx.qcc.toolChain.246140601">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.qnx.qcc.toolChain.246140601" moduleId="org.eclipse.cdt.core.settings" name="Device-Release">
 				<externalSettings/>
 				<extensions>
 					<extension id="com.qnx.tools.ide.qde.core.QDEBynaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -52,24 +52,100 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" id="com.qnx.qcc.toolChain.417940004" name="Device-Release" parent="org.eclipse.cdt.build.core.emptycfg">
-					<folderInfo id="com.qnx.qcc.toolChain.417940004.1739398776" name="/" resourcePath="">
-						<toolChain id="com.qnx.qcc.toolChain.243753590" name="com.qnx.qcc.toolChain" superClass="com.qnx.qcc.toolChain">
-							<option id="com.qnx.qcc.option.os.1619606657" name="Target OS:" superClass="com.qnx.qcc.option.os"/>
-							<option id="com.qnx.qcc.option.cpu.732248347" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
-							<option id="com.qnx.qcc.option.compiler.12055245" name="Compiler:" superClass="com.qnx.qcc.option.compiler"/>
-							<option id="com.qnx.qcc.option.runtime.902146355" name="Runtime:" superClass="com.qnx.qcc.option.runtime"/>
-							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.424721214" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
-							<builder autoBuildTarget="Device-Release" enableAutoBuild="true" id="com.qnx.qcc.toolChain.417940004.104573948" incrementalBuildTarget="Device-Release" managedBuildOn="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
-							<tool id="com.qnx.qcc.tool.compiler.57602161" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
-								<option id="com.qnx.qcc.option.compiler.optlevel.1931964832" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
-								<inputType id="com.qnx.qcc.inputType.compiler.859446955" superClass="com.qnx.qcc.inputType.compiler"/>
+				<configuration artifactName="${ProjName}" buildProperties="" id="com.qnx.qcc.toolChain.246140601" name="Device-Release" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.qnx.qcc.toolChain.246140601.1814409820" name="/" resourcePath="">
+						<toolChain id="com.qnx.qcc.toolChain.1850425789" name="com.qnx.qcc.toolChain" superClass="com.qnx.qcc.toolChain">
+							<option id="com.qnx.qcc.option.os.1498471710" name="Target OS:" superClass="com.qnx.qcc.option.os"/>
+							<option id="com.qnx.qcc.option.cpu.1586842568" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
+							<option id="com.qnx.qcc.option.compiler.46199629" name="Compiler:" superClass="com.qnx.qcc.option.compiler"/>
+							<option id="com.qnx.qcc.option.runtime.1422392083" name="Runtime:" superClass="com.qnx.qcc.option.runtime"/>
+							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.850348058" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
+							<builder autoBuildTarget="Device-Release" enableAutoBuild="true" id="com.qnx.qcc.toolChain.246140601.2125637575" incrementalBuildTarget="Device-Release" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
+							<tool id="com.qnx.qcc.tool.compiler.1967020227" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
+								<option id="com.qnx.qcc.option.compiler.optlevel.305752711" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
+								<inputType id="com.qnx.qcc.inputType.compiler.820915678" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
-							<tool id="com.qnx.qcc.tool.assembler.1406008956" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
-								<inputType id="com.qnx.qcc.inputType.assembler.1555307957" superClass="com.qnx.qcc.inputType.assembler"/>
+							<tool id="com.qnx.qcc.tool.assembler.1970146750" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
+								<inputType id="com.qnx.qcc.inputType.assembler.663189610" superClass="com.qnx.qcc.inputType.assembler"/>
 							</tool>
-							<tool id="com.qnx.qcc.tool.linker.1230527924" name="QCC Linker" superClass="com.qnx.qcc.tool.linker"/>
-							<tool id="com.qnx.qcc.tool.archiver.1880155049" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver"/>
+							<tool id="com.qnx.qcc.tool.linker.716590987" name="QCC Linker" superClass="com.qnx.qcc.tool.linker"/>
+							<tool id="com.qnx.qcc.tool.archiver.2125218996" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.qnx.qcc.toolChain.924167612">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.qnx.qcc.toolChain.924167612" moduleId="org.eclipse.cdt.core.settings" name="Device-Profile">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.qnx.tools.ide.qde.core.QDEBynaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildProperties="" id="com.qnx.qcc.toolChain.924167612" name="Device-Profile" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.qnx.qcc.toolChain.924167612.1076078643" name="/" resourcePath="">
+						<toolChain id="com.qnx.qcc.toolChain.1472167838" name="com.qnx.qcc.toolChain" superClass="com.qnx.qcc.toolChain">
+							<option id="com.qnx.qcc.option.os.1416996680" name="Target OS:" superClass="com.qnx.qcc.option.os"/>
+							<option id="com.qnx.qcc.option.cpu.1002405430" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
+							<option id="com.qnx.qcc.option.compiler.204680767" name="Compiler:" superClass="com.qnx.qcc.option.compiler"/>
+							<option id="com.qnx.qcc.option.runtime.1037409504" name="Runtime:" superClass="com.qnx.qcc.option.runtime"/>
+							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.1503989314" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
+							<builder autoBuildTarget="Device-Profile" enableAutoBuild="true" id="com.qnx.qcc.toolChain.924167612.1377059267" incrementalBuildTarget="Device-Profile" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
+							<tool id="com.qnx.qcc.tool.compiler.1635639028" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
+								<option id="com.qnx.qcc.option.compiler.optlevel.990101461" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
+								<inputType id="com.qnx.qcc.inputType.compiler.598559069" superClass="com.qnx.qcc.inputType.compiler"/>
+							</tool>
+							<tool id="com.qnx.qcc.tool.assembler.880169972" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
+								<inputType id="com.qnx.qcc.inputType.assembler.1400529703" superClass="com.qnx.qcc.inputType.assembler"/>
+							</tool>
+							<tool id="com.qnx.qcc.tool.linker.1892810693" name="QCC Linker" superClass="com.qnx.qcc.tool.linker"/>
+							<tool id="com.qnx.qcc.tool.archiver.1558823236" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.qnx.qcc.toolChain.476587687">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.qnx.qcc.toolChain.476587687" moduleId="org.eclipse.cdt.core.settings" name="Simulator-Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.qnx.tools.ide.qde.core.QDEBynaryParser" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildProperties="" id="com.qnx.qcc.toolChain.476587687" name="Simulator-Debug" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.qnx.qcc.toolChain.476587687.766000837" name="/" resourcePath="">
+						<toolChain id="com.qnx.qcc.toolChain.1659452492" name="com.qnx.qcc.toolChain" superClass="com.qnx.qcc.toolChain">
+							<option id="com.qnx.qcc.option.os.648704288" name="Target OS:" superClass="com.qnx.qcc.option.os"/>
+							<option id="com.qnx.qcc.option.cpu.1084544621" name="Target CPU:" superClass="com.qnx.qcc.option.cpu"/>
+							<option id="com.qnx.qcc.option.compiler.166769900" name="Compiler:" superClass="com.qnx.qcc.option.compiler"/>
+							<option id="com.qnx.qcc.option.runtime.752128768" name="Runtime:" superClass="com.qnx.qcc.option.runtime"/>
+							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.1887661243" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
+							<builder autoBuildTarget="Simulator-Debug" enableAutoBuild="true" id="com.qnx.qcc.toolChain.476587687.1167515090" incrementalBuildTarget="Simulator-Debug" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
+							<tool id="com.qnx.qcc.tool.compiler.1542548095" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
+								<option id="com.qnx.qcc.option.compiler.optlevel.708042449" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
+								<inputType id="com.qnx.qcc.inputType.compiler.1355499365" superClass="com.qnx.qcc.inputType.compiler"/>
+							</tool>
+							<tool id="com.qnx.qcc.tool.assembler.617702335" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
+								<inputType id="com.qnx.qcc.inputType.assembler.225962001" superClass="com.qnx.qcc.inputType.assembler"/>
+							</tool>
+							<tool id="com.qnx.qcc.tool.linker.333390588" name="QCC Linker" superClass="com.qnx.qcc.tool.linker"/>
+							<tool id="com.qnx.qcc.tool.archiver.1771978401" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
@@ -81,22 +157,22 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="BackgroundVideo.null.2024682985" name="BackgroundVideo"/>
+		<project id="BackgroundVideo.null.1888640463" name="BackgroundVideo"/>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
-		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.417940004">
+		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.2076661048">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.1749567028">
+		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.924167612">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.1297658961">
+		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.246140601">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.5048645">
+		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.476587687">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 </cproject>

@@ -2,6 +2,7 @@
 
 #include "BackgroundVideo.hpp"
 #include "InvocationUtils.h"
+#include "IOUtils.h"
 #include "LazyMediaPlayer.h"
 #include "Logger.h"
 #include "QueryId.h"
@@ -116,6 +117,10 @@ void BackgroundVideo::init()
 
 	QString database = QString("%1/database.db").arg( QDir::homePath() );
 	m_sql.setSource(database);
+
+	if ( !QFile(database).exists() ) {
+		IOUtils::writeFile(database);
+	}
 
 	QStringList qsl;
 	qsl << "CREATE TABLE IF NOT EXISTS recent (file TEXT PRIMARY KEY, position INTEGER DEFAULT 0, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)";

@@ -77,6 +77,10 @@
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="arm/o.le-v7/BackgroundVideo.so" entry="true" type="Qnx/Elf">BackgroundVideo.so</asset>
     </configuration>
+    <configuration name="Simulator-Debug">
+       <platformArchitecture>x86</platformArchitecture>
+       <asset path="x86/o-g/BackgroundVideo" entry="true" type="Qnx/Elf">BackgroundVideo</asset>
+    </configuration>
     
     <!--  The icon for the application, which should be 86x86. -->
     <icon>
