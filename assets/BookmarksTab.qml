@@ -138,7 +138,6 @@ NavigationPane
                                     textStyle.fontSize: FontSize.XXSmall
                                     textStyle.color: Color.White
                                     textStyle.fontWeight: FontWeight.Bold
-                                    textStyle.textAlign: TextAlign.Center
                                     multiline: true
                                     
                                     layoutProperties: StackLayoutProperties {

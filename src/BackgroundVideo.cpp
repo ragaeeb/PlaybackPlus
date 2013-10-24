@@ -61,7 +61,7 @@ void BackgroundVideo::aboutToQuit()
 	QVariantMap map = m_player.metaData();
 	QString filePath = map.value("uri").toString();
 
-	if ( !filePath.isEmpty() )
+	if ( !filePath.isEmpty() && QFile::exists(filePath) )
 	{
 		uint position = m_player.currentPosition().toUInt();
 
