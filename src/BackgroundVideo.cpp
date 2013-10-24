@@ -1,6 +1,7 @@
 #include "precompiled.h"
 
 #include "BackgroundVideo.hpp"
+#include "BlueToothUtil.h"
 #include "InvocationUtils.h"
 #include "IOUtils.h"
 #include "LazyMediaPlayer.h"
@@ -21,7 +22,6 @@ BackgroundVideo::BackgroundVideo(Application* app) : QObject(app), m_cover("Cove
 	connect( &m_invokeManager, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
 	connect( app, SIGNAL( aboutToQuit() ), this, SLOT( aboutToQuit() ) );
 }
-
 
 
 QObject* BackgroundVideo::loadRoot(QString const& qmlDoc, bool invoked)
@@ -69,6 +69,10 @@ void BackgroundVideo::aboutToQuit()
 		QVariantList params = QVariantList() << filePath;
 		m_sql.executePrepared(params, QueryId::SaveRecent);
 	}
+
+	if ( m_persistance.getValueFor("bluetooth") == 1 ) {
+		BlueToothUtil::activate(false);
+	}
 }
 
 
@@ -113,6 +117,7 @@ void BackgroundVideo::init()
 {
 	INIT_SETTING("landscape", 0);
 	INIT_SETTING("stretch", 1);
+	INIT_SETTING("bluetooth", 0);
 	INIT_SETTING("input", "/accounts/1000/removable/sdcard/videos");
 
 	QString database = QString("%1/database.db").arg( QDir::homePath() );
@@ -132,6 +137,10 @@ void BackgroundVideo::init()
 	fetchAllBookmarks();
 
 	InvocationUtils::validateSharedFolderAccess( tr("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to access the media files so they can be played. If you leave this permission off, some features may not work properly.") );
+
+	if ( m_persistance.getValueFor("bluetooth") == 1 ) {
+		BlueToothUtil::activate(true);
+	}
 }
 
 

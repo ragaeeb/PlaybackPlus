@@ -33,7 +33,6 @@ Page
             
             SettingPair {
                 topMargin: 20;
-                bottomPadding: 40
                 title: qsTr("Stretch Video") + Retranslate.onLanguageChanged
                 key: "stretch"
                 
@@ -42,6 +41,21 @@ Page
                         infoText.text = qsTr("The video will be stretched to fill the entire screen.")
                     } else {
                         infoText.text = qsTr("The video will not be stretched to fill the entire screen.")
+                    }
+                }
+            }
+            
+            SettingPair {
+                topMargin: 20;
+                bottomPadding: 40
+                title: qsTr("Activate Bluetooth") + Retranslate.onLanguageChanged
+                key: "bluetooth"
+                
+                toggle.onCheckedChanged: {
+                    if (checked) {
+                        infoText.text = qsTr("The Bluetooth radio will automatically activated on app launch.")
+                    } else {
+                        infoText.text = qsTr("The Bluetooth radio will not be modified.")
                     }
                 }
             }
