@@ -140,6 +140,11 @@ NavigationPane
                 if (player.active) {
                     delegateActive = true;
                     player.activeChanged.disconnect(onActiveChanged);
+                    
+                    if ( persist.getValueFor("tutorialCount") < 2 ) {
+                        persist.showToast( qsTr("Double-tap anywhere in this empty space to bookmark a specific section of the media. You can also quickly double-press the Voice Action key (in between the Vol Up/Down buttons) to make a quick bookmark of the media (the app does not even need to be in the foreground)!"), qsTr("OK") );
+                        persist.saveValueFor("tutorialCount", 2);
+                    }
                 }
             }
             

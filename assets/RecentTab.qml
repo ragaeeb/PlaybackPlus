@@ -98,7 +98,7 @@ NavigationPane
                             
                             contextActions: [
                                 ActionSet {
-                                    title: sli.description
+                                    title: sli.title
                                     subtitle: sli.status
                                     
                                     DeleteActionItem {

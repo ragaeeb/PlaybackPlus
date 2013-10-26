@@ -202,7 +202,6 @@ NavigationPane
                 
                 onCreationCompleted: {
                     sql.dataLoaded.connect(onDataLoaded);
-                    console.log("forcing fetch all bookmarks!!!");
                     app.fetchAllBookmarks(true);
                 }
                 

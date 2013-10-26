@@ -14,9 +14,7 @@ TabbedPane
     
     onSidebarVisualStateChanged: {
         if (SidebarVisualState.AnimatingToVisibleCompact) {
-            console.log("fetching bookmarks!!!");
             app.fetchAllBookmarks();
-            console.log("fetching recent!!!");
             app.fetchAllRecent();
         }
     }
@@ -104,7 +102,6 @@ TabbedPane
         if (id == QueryId.FetchRecent) {
             recent.unreadContentCount = data.length;
         } else if (id == QueryId.FetchBookmarks) {
-            console.log("================ FETCHED BOOKMARKS", data.length);
             bookmarks.unreadContentCount = data.length;
         }
     }
