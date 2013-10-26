@@ -14,7 +14,8 @@ namespace backgroundvideo {
 using namespace bb::cascades;
 using namespace canadainc;
 
-BackgroundVideo::BackgroundVideo(Application* app) : QObject(app), m_cover("Cover.qml")
+BackgroundVideo::BackgroundVideo(Application* app) :
+		QObject(app), m_cover("Cover.qml"), m_dirtyBookmarks(true), m_dirtyRecent(true)
 {
 	m_cover.setContext("player", &m_player);
 
@@ -88,6 +89,8 @@ void BackgroundVideo::addBookmark(QVariant pos, QString const& body)
 		m_sql.setQuery( QString("INSERT OR REPLACE INTO bookmarks (file, position, body) VALUES(?, %1, ?)").arg(position) );
 		QVariantList params = QVariantList() << filePath << body.trimmed();
 		m_sql.executePrepared(params, QueryId::SaveBookmark);
+
+		m_dirtyBookmarks = true;
 	}
 }
 
@@ -133,9 +136,6 @@ void BackgroundVideo::init()
 	qsl << "CREATE INDEX IF NOT EXISTS file_idx ON bookmarks (file)";
 	m_sql.executeTransaction(qsl, QueryId::Setup);
 
-	fetchAllRecent();
-	fetchAllBookmarks();
-
 	InvocationUtils::validateSharedFolderAccess( tr("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to access the media files so they can be played. If you leave this permission off, some features may not work properly.") );
 
 	if ( m_persistance.getValueFor("bluetooth") == 1 ) {
@@ -144,17 +144,31 @@ void BackgroundVideo::init()
 }
 
 
-void BackgroundVideo::fetchAllRecent()
+void BackgroundVideo::fetchAllRecent(bool force)
 {
-	m_sql.setQuery("SELECT * from recent ORDER BY timestamp DESC LIMIT 10");
-	m_sql.load(QueryId::FetchRecent);
+	LOGGER("fetchAllRecent" << force);
+
+	if (m_dirtyRecent || force)
+	{
+		m_sql.setQuery("SELECT * from recent ORDER BY timestamp DESC LIMIT 10");
+		m_sql.load(QueryId::FetchRecent);
+
+		m_dirtyRecent = false;
+	}
 }
 
 
-void BackgroundVideo::fetchAllBookmarks()
+void BackgroundVideo::fetchAllBookmarks(bool force)
 {
-	m_sql.setQuery("SELECT * from bookmarks ORDER BY file,position");
-	m_sql.load(QueryId::FetchBookmarks);
+	LOGGER("fetchAllBookmarks" << force);
+
+	if (m_dirtyBookmarks || force)
+	{
+		m_sql.setQuery("SELECT * from bookmarks ORDER BY file,position");
+		m_sql.load(QueryId::FetchBookmarks);
+
+		m_dirtyBookmarks = false;
+	}
 }
 
 
@@ -162,6 +176,7 @@ void BackgroundVideo::deleteBookmark(int id)
 {
 	m_sql.setQuery( QString("DELETE FROM bookmarks WHERE id=%1").arg(id) );
 	m_sql.load(QueryId::DeleteBookmark);
+	m_dirtyBookmarks = true;
 
 	fetchAllRecent();
 }
@@ -172,6 +187,7 @@ void BackgroundVideo::deleteRecent(QString const& file)
 	m_sql.setQuery( QString("DELETE FROM recent WHERE file=?").arg(file) );
 	QVariantList params = QVariantList() << file;
 	m_sql.executePrepared(params, QueryId::DeleteRecent);
+	m_dirtyRecent = true;
 
 	fetchAllRecent();
 }
@@ -198,6 +214,55 @@ bool BackgroundVideo::deleteFile(QString const& file, bool removeBookmarks)
 	}
 
 	return result;
+}
+
+
+QString BackgroundVideo::exportAllBookmarks(QObject* q)
+{
+	GroupDataModel* gdm = static_cast<GroupDataModel*>(q);
+	QList<QVariantMap> list = gdm->toListOfMaps();
+	QString result;
+
+	if ( !list.isEmpty() )
+	{
+		QString last = list.first().value("file").toString();
+		result = last.mid( last.lastIndexOf("/")+1 )+"\n";
+
+		for (int i = 0; i < list.size(); i++)
+		{
+			QVariantMap current = list[i];
+			QString file = current.value("file").toString();
+
+			if (last != file) {
+				last = file;
+				result += "================================\n\n";
+				result += last.mid( last.lastIndexOf("/")+1 )+"\n";
+			}
+
+			QString t = TextUtils::formatTime( current.value("position").toInt() );
+			result += QString("%1: %2").arg(t).arg( current.value("body").toString() )+"\n";
+		}
+	}
+
+	return result;
+}
+
+void BackgroundVideo::clearAllRecent()
+{
+    m_sql.setQuery("DELETE from recent");
+    m_sql.load(QueryId::ClearAllRecent);
+    m_dirtyRecent = true;
+
+    fetchAllRecent();
+}
+
+void BackgroundVideo::clearAllBookmarks()
+{
+    m_sql.setQuery("DELETE from bookmarks");
+    m_sql.load(QueryId::ClearAllBookmarks);
+	m_dirtyBookmarks = true;
+
+    fetchAllBookmarks();
 }
 
 }

@@ -18,8 +18,27 @@ NavigationPane
         }
         
         actions: [
+            InvokeActionItem {
+                id: iai
+                title: qsTr("Share") + Retranslate.onLanguageChanged
+                enabled: !noElements.visible
+                
+                query {
+                    mimeType: "text/plain"
+                    invokeActionId: "bb.action.SHARE"
+                }
+                
+                onTriggered: {
+                    persist.showBlockingToast( qsTr("Note that BBM has a maximum limit for the length of text that can be inputted into the message field. So if your conversation is too big it may not paste properly.\n\nIf you want to save the data to a file, consider downloading our 'Exporter' app for BlackBerry 10."), qsTr("OK") );
+                    iai.data = persist.convertToUtf8( app.exportAllBookmarks(adm) );
+                }
+                
+                ActionBar.placement: ActionBarPlacement.OnBar
+            },
+            
             DeleteActionItem {
                 title: qsTr("Clear All") + Retranslate.onLanguageChanged
+                imageSource: "images/ic_bookmark_delete.png"
                 
                 onTriggered: {
                     prompt.show();
@@ -35,10 +54,7 @@ NavigationPane
                         
                         onFinished: {
                             if (result == SystemUiResult.ConfirmButtonSelection) {
-                                sql.query = "DELETE from bookmarks";
-                                sql.load(Queryid.ClearAllBookmarks);
-                                app.fetchAllRecent();
-                                
+                                app.clearAllBookmarks();
                                 persist.showToast( qsTr("Cleared all bookmarks!") );
                             }
                         }
@@ -75,7 +91,7 @@ NavigationPane
                 
                 dataModel: GroupDataModel {
                     id: adm
-                    sortingKeys: ["file"]
+                    sortingKeys: ["file", "position"]
                     grouping: ItemGrouping.ByFullValue
                 }
                 
@@ -97,7 +113,7 @@ NavigationPane
                                 return uri;
                             }
 
-                            subtitle: ListItem.sectionSize
+                            subtitle: ListItem.view.dataModel.childCount(ListItem.indexPath)
                         }
                     },
                     
@@ -157,7 +173,7 @@ NavigationPane
                                     
                                     DeleteActionItem {
                                         title: qsTr("Remove") + Retranslate.onLanguageChanged
-                                        imageSource: "images/ic_clear_recent.png"
+                                        imageSource: "images/ic_bookmark_delete.png"
                                         
                                         onTriggered: {
                                             rootItem.ListItem.view.removeBookmark(ListItemData);
@@ -186,7 +202,8 @@ NavigationPane
                 
                 onCreationCompleted: {
                     sql.dataLoaded.connect(onDataLoaded);
-                    app.fetchAllBookmarks();
+                    console.log("forcing fetch all bookmarks!!!");
+                    app.fetchAllBookmarks(true);
                 }
                 
                 attachedObjects: [

@@ -88,7 +88,7 @@ NavigationPane
                             id: sli
                             imageSource: "images/ic_open_recent.png";
                             status: ListItem.view.formatter.formatTime(ListItemData.position)
-                            description: {
+                            title: {
                                 var uri = ListItemData.file;
                                 uri = uri.substring( uri.lastIndexOf("/")+1 );
                                 uri = uri.substring( 0, uri.lastIndexOf(".") );
@@ -132,7 +132,7 @@ NavigationPane
                 
                 onCreationCompleted: {
                     sql.dataLoaded.connect(onDataLoaded);
-                    app.fetchAllRecent();
+                    app.fetchAllRecent(true);
                 }
                 
                 attachedObjects: [

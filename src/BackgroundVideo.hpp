@@ -29,6 +29,8 @@ class BackgroundVideo : public QObject
     LazySceneCover m_cover;
     LazyMediaPlayer m_player;
     Persistance m_persistance;
+    bool m_dirtyBookmarks;
+    bool m_dirtyRecent;
 
     BackgroundVideo(Application* app);
     QObject* loadRoot(QString const& qml, bool invoked=false);
@@ -47,11 +49,14 @@ public:
     virtual ~BackgroundVideo() {}
     Q_INVOKABLE void invokeSettingsApp();
     Q_INVOKABLE void addBookmark(QVariant position=QVariant(), QString const& body=QString());
-    Q_INVOKABLE void fetchAllBookmarks();
-    Q_INVOKABLE void fetchAllRecent();
+    Q_INVOKABLE void fetchAllBookmarks(bool forceUpdate=false);
+    Q_INVOKABLE void fetchAllRecent(bool forceUpdate=false);
     Q_INVOKABLE void deleteBookmark(int id);
     Q_INVOKABLE void deleteRecent(QString const& file);
     Q_INVOKABLE bool deleteFile(QString const& file, bool removeBookmarks=false);
+    Q_INVOKABLE void clearAllRecent();
+    Q_INVOKABLE void clearAllBookmarks();
+    Q_INVOKABLE QString exportAllBookmarks(QObject* gdm);
 };
 
 }
