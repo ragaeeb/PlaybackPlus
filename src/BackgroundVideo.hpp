@@ -57,6 +57,12 @@ public:
     Q_INVOKABLE void clearAllRecent();
     Q_INVOKABLE void clearAllBookmarks();
     Q_INVOKABLE QString exportAllBookmarks(QObject* gdm);
+
+    /**
+     * @param A duration in milliseconds.
+     * @return 15:12:04
+     */
+    Q_INVOKABLE static QString formatTime(unsigned int duration);
 };
 
 }

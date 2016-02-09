@@ -8,7 +8,7 @@ Dialog
     property variant position
     
     onPositionChanged: {
-        textArea.hintText = formatter.formatTime(position);
+        textArea.hintText = app.formatTime(position);
     }
     
     Container

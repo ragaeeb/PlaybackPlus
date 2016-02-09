@@ -67,7 +67,7 @@ NavigationPane
             ListView
             {
                 id: listView
-                property alias formatter: textUtils
+                property alias formatter: app
                 
                 verticalAlignment: VerticalAlignment.Fill
                 horizontalAlignment: HorizontalAlignment.Fill

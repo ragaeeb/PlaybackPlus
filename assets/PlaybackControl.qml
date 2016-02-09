@@ -47,7 +47,7 @@ Container
                         timer.refresh();
                         touchedDown = false;
                     } else if ( event.isMove() ) {
-                        seekerLabel.positionText = textUtils.formatTime(immediateValue);
+                        seekerLabel.positionText = app.formatTime(immediateValue);
                     } else if ( event.isDown() ) {
                         timer.stop();
                         touchedDown = true;
@@ -79,11 +79,11 @@ Container
                 
                 onCreationCompleted: {
                     player.durationChanged.connect( function(duration) {
-                        durationText = textUtils.formatTime(duration);
+                        durationText = app.formatTime(duration);
                     });
                 
 	                player.positionChanged.connect( function(position) {
-	                    positionText = textUtils.formatTime(position);
+	                    positionText = app.formatTime(position);
 	                });
                 }
             }

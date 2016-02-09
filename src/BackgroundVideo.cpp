@@ -239,7 +239,7 @@ QString BackgroundVideo::exportAllBookmarks(QObject* q)
 				result += last.mid( last.lastIndexOf("/")+1 )+"\n";
 			}
 
-			QString t = TextUtils::formatTime( current.value("position").toInt() );
+			QString t = formatTime( current.value("position").toInt() );
 			result += QString("%1: %2").arg(t).arg( current.value("body").toString() )+"\n";
 		}
 	}
@@ -264,5 +264,21 @@ void BackgroundVideo::clearAllBookmarks()
 
     fetchAllBookmarks();
 }
+
+
+QString BackgroundVideo::formatTime(unsigned int duration)
+{
+    unsigned int secs = floor(duration / 1000);
+    secs %= 60;
+    unsigned int mins = floor( (duration / (1000 * 60) ) % 60);
+    unsigned int hrs = floor( (duration / (1000 * 60 * 60) ) % 24);
+
+    QString seconds = QString::number(secs).rightJustified(2,'0');
+    QString minutes = QString::number(mins).rightJustified(2,'0');
+    QString hours = hrs > 0 ? QString("%1:").arg(hrs) : "";
+
+    return QString("%1%2:%3").arg(hours).arg(minutes).arg(seconds);
+}
+
 
 }
